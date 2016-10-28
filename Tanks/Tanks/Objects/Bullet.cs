@@ -7,21 +7,9 @@ namespace Tanks.Objects
 {
     public class Bullet : GameObject
     {
-        private float _rotation;
-
-        public float Rotation
-        {
-            get { return _rotation; }
-            set
-            {
-                View.Rotation = value;
-                _rotation = value;
-            }
-        }
-
         public Bullet(Coordinate position, Coordinate size, Colour colour, float rotation)
             : base(
-                position, size,
+                position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Ellipse(0, new Colour(Color.Empty), new Coordinate(658, 277), new Coordinate(50, 120),
@@ -31,7 +19,6 @@ namespace Tanks.Objects
                 }) {Position = new Coordinate(0, 0)})
         {
             View.Shapes[1].MainColour = colour;
-            Rotation = rotation;
         }
     }
 }

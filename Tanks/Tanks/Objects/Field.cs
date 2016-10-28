@@ -17,13 +17,13 @@ namespace Tanks.Objects
                 View =
                     new ShapeCollection (new ObservableCollection<Shape> (Objects.Select (o => o.View)))
                     {
-                        /*TODO:The view of the field itself*/
+                            /*TODO:The view of the field itself*/
                     };
             }
         }
 
-        public Field(Coordinate position, Coordinate size, ObservableCollection<GameObject> objects)
-            : base(position, size, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View)) {/*TODO:The view of the field itself*/}))
+        public Field (Coordinate position, Coordinate size, ObservableCollection<GameObject> objects)
+            : base (position, size, 0, new ShapeCollection (new ObservableCollection<Shape> (objects.Select (o => o.View)) {/*TODO:The view of the field itself*/}))
         {
             Objects = objects;
         }

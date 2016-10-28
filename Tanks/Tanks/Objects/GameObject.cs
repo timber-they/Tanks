@@ -1,4 +1,5 @@
-﻿using Painting.Types.Paint;
+﻿using System;
+using Painting.Types.Paint;
 
 namespace Tanks.Objects
 {
@@ -7,6 +8,18 @@ namespace Tanks.Objects
         private Coordinate _position;
         private Coordinate _size;
         private ShapeCollection _view;
+        private float _rotation;
+
+        public float Rotation
+        {
+            get { return _rotation; }
+            set
+            {
+                if (View != null && Math.Abs(View.Rotation - value) > 0.001)
+                    View.Rotation = value;
+                _rotation = value;
+            }
+        }
 
         public Coordinate Position
         {
@@ -35,20 +48,25 @@ namespace Tanks.Objects
             get { return _view; }
             set
             {
+                if (View != null && View.Equals(value))
+                    return;
                 if (Size == null || !Size.Equals (value.Size))
                     Size = value.Size;
                 if (Position == null || !Position.Equals (value.Position))
                     Position = value.Position;
+                if (Math.Abs(Rotation - value.Rotation) > 0.001)
+                    Rotation = value.Rotation;
                 _view = value;
             }
         }
 
-        public GameObject (Coordinate position, Coordinate size, ShapeCollection view)
+        public GameObject (Coordinate position, Coordinate size, float rotation ,ShapeCollection view)
         {
             if (!(this is Field))
                 View = view;
             Position = position;
             Size = size;
+            Rotation = rotation;
             if (this is Field)
                 View = view;
         }

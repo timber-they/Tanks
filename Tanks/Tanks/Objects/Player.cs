@@ -7,23 +7,11 @@ namespace Tanks.Objects
 {
     public class Player : GameObject
     {
-        private float _rotation;
-
-        public float Rotation
-        {
-            get { return _rotation; }
-            set
-            {
-                View.Rotation = value;
-                _rotation = value;
-            }
-        }
-
         public int Lives { get; set; }
 
         public Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour)
             : base(
-                position, size,
+                position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Line(new Coordinate(525, 319), new Coordinate(525, 227.5786f),
@@ -34,7 +22,6 @@ namespace Tanks.Objects
                         new Colour(Color.FromArgb(-16777216)), 0f),
                 }) {Position = new Coordinate(0, 0)})
         {
-            Rotation = rotation;
             Lives = lives;
             View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb() * 3));
             View.Shapes[1].MainColour = colour;

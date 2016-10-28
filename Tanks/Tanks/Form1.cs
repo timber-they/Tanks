@@ -31,5 +31,12 @@ namespace Tanks
         {
             f.View.Paint(e.Graphics);
         }
+
+        private void timer1_Tick (object sender, EventArgs e)
+        {
+            //f.Objects[0].Rotation = (f.Objects[0].Rotation + 1f) % 360;
+            //f.Objects[1].Rotation = (f.Objects[1].Rotation + 1f) % 360;
+            Refresh ();
+        }
     }
 }
