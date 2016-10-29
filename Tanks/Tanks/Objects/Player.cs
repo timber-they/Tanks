@@ -17,14 +17,16 @@ namespace Tanks.Objects
                     new Line(new Coordinate(525, 319), new Coordinate(525, 227.5786f),
                         new Colour(Color.FromArgb(-16711936)), 7),
                     new Polygon(4, 2, new Colour(Color.FromArgb(-65536)), new Coordinate(468, 262),
-                        new Coordinate(116, 116), new Colour(Color.Empty), 45),
+                        new Coordinate(116, 116), new Colour(Color.Empty), 0, 45),
                     new Ellipse(0, new Colour(Color.Empty), new Coordinate(475, 270), new Coordinate(100, 100),
                         new Colour(Color.FromArgb(-16777216)), 0f),
                 }) {Position = new Coordinate(0, 0)})
         {
             Lives = lives;
             View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb() * 3));
-            View.Shapes[1].MainColour = colour;
+            var polygon = View.Shapes[1] as Polygon;
+            if (polygon != null)
+                polygon.LineColour = colour;
         }
     }
 }

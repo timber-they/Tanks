@@ -23,20 +23,25 @@ namespace Tanks
         private Field f = new Field(new Coordinate(0, 0), new Coordinate(500, 500),
             new ObservableCollection<GameObject>
             {
-                new MainPlayer(new Coordinate(50, 50), new Coordinate(50, 50), 0, 3),
-                new NormalBullet(new Coordinate(100,100), new Coordinate(10,30), 0)
+                new MainPlayer(new Coordinate(50, 50), new Coordinate(500, 500), 0, 3),
+                new NormalBullet(new Coordinate(1000,50), new Coordinate(100,300), 0)
             });
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            f.View.Paint(e.Graphics);
+            f.View.Paint(e.Graphics, f.Position.Add(f.Size.Div(2)));
         }
 
         private void timer1_Tick (object sender, EventArgs e)
         {
-            //f.Objects[0].Rotation = (f.Objects[0].Rotation + 1f) % 360;
-            //f.Objects[1].Rotation = (f.Objects[1].Rotation + 1f) % 360;
+            f.Objects[0].Rotation = (f.Objects[0].Rotation + 1f) % 360;
+            f.Objects[1].Rotation = (f.Objects[1].Rotation + 1f) % 360;
             Refresh ();
+        }
+
+        private void Form1_MouseClick (object sender, MouseEventArgs e)
+        {
+            timer1_Tick(sender, null);
         }
     }
 }
