@@ -9,6 +9,7 @@ namespace Tanks.Objects
         private Coordinate _size;
         private ShapeCollection _view;
         private float _rotation;
+        public readonly decimal Id;
 
         public float Rotation
         {
@@ -37,31 +38,26 @@ namespace Tanks.Objects
             get { return _size; }
             set
             {
+                _size = value;
                 if (View != null && (View.Size == null || !View.Size.Equals (value)))
                     View.Size = value;
-                _size = value;
             }
         }
 
-        public ShapeCollection View
+        public ShapeCollection View //Don't change the view - always change the Object itself!
         {
             get { return _view; }
             set
             {
                 if (View != null && View.Equals(value))
                     return;
-                if (Size == null || !Size.Equals (value.Size))
-                    Size = value.Size;
-                if (Position == null || !Position.Equals (value.Position))
-                    Position = value.Position;
-                if (Math.Abs(Rotation - value.Rotation) > 0.001)
-                    Rotation = value.Rotation;
                 _view = value;
             }
         }
 
-        public GameObject (Coordinate position, Coordinate size, float rotation ,ShapeCollection view)
+        public GameObject (Coordinate position, Coordinate size, float rotation, ShapeCollection view, decimal id)
         {
+            Id = id;
             if (!(this is Field))
                 View = view;
             Position = position;

@@ -22,10 +22,16 @@ namespace Tanks.Objects
             }
         }
 
-        public Field (Coordinate position, Coordinate size, ObservableCollection<GameObject> objects)
-            : base (position, size, 0, new ShapeCollection (new ObservableCollection<Shape> (objects.Select (o => o.View)) {/*TODO:The view of the field itself*/}))
+        public Field (Coordinate position, Coordinate size, ObservableCollection<GameObject> objects, decimal id)
+            : base (position, size, 0, new ShapeCollection (new ObservableCollection<Shape> (objects.Select (o => o.View))), id)
         {
             Objects = objects;
+        }
+
+        public void AddMainPlayer(decimal id)
+        {
+            Objects.Add(new MainPlayer(new Coordinate(100,100), new Coordinate(100,100), 0, 3, id));
+            Objects = Objects;
         }
     }
 }

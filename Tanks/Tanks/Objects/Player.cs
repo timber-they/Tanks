@@ -9,7 +9,7 @@ namespace Tanks.Objects
     {
         public int Lives { get; set; }
 
-        public Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour)
+        public Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour, decimal id)
             : base(
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
@@ -20,7 +20,7 @@ namespace Tanks.Objects
                         new Coordinate(116, 116), new Colour(Color.Empty), 0, 45),
                     new Ellipse(0, new Colour(Color.Empty), new Coordinate(475, 270), new Coordinate(100, 100),
                         new Colour(Color.FromArgb(-16777216)), 0f),
-                }) {Position = new Coordinate(0, 0)})
+                }) {Position = new Coordinate(0, 0)}, id)
         {
             Lives = lives;
             View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb() * 3));
