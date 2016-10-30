@@ -6,6 +6,7 @@
         Collided,
         ReboundedHorizontal,
         ReboundedVertical,
+        PlayerVanishing,
         Nothing
     }
 }

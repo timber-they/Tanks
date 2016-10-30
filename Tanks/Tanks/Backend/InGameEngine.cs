@@ -16,7 +16,7 @@ namespace Tanks.Backend
 {
     public class InGameEngine
     {
-        public MainWindow Form;
+        public MainWindow Window;
 
         public Field Field;
         private decimal _currentId;
@@ -35,6 +35,8 @@ namespace Tanks.Backend
 
         public void OnTick ()
         {
+            if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
+                Window.LiveIndicator.Text = new string('♥', Player.Lives);
             if (Animations.Count <= 0)
                 return;
             Animations = Collision.UpdateAnimations(Animations, this);
@@ -43,20 +45,21 @@ namespace Tanks.Backend
                     o => !(o is Bullet && Animations.All (animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
                 animation.AnimateMovement ();
-            Form.Refresh ();
+            Window.Refresh ();
         }
 
-        public InGameEngine (MainWindow form)
+        public InGameEngine (MainWindow window)
         {
-            Form = form;
+            Window = window;
             Init ();
         }
 
         public void Init ()
         {
-            Field = new Field (new Coordinate (0, 0), new Coordinate (Form.Width, Form.Height), new ObservableCollection<GameObject> (), CurrentId);
+            Field = new Field (new Coordinate (0, 0), new Coordinate (Window.Width, Window.Height), new ObservableCollection<GameObject> (), CurrentId);
             Field.AddObject (AddableObjects.MainPlayer, this);
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500,500));
+            Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000,500));
             Animations = new ObservableCollection<Animation> ();
         }
 
@@ -68,7 +71,7 @@ namespace Tanks.Backend
                 for (var i = 0; i < Field.Objects.Count; i++)
                     if (Field.Objects[i] is MainPlayer)
                         Field.Objects[i] = value;
-                Form.Refresh ();
+                Window.Refresh ();
             }
         }
 
@@ -81,7 +84,7 @@ namespace Tanks.Backend
                   {
                       Player = Player;
                   };
-                  Form.Invoke (invoker);
+                  Window.Invoke (invoker);
               }));
         }
     }

@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.LiveIndicator = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // timer1
@@ -38,11 +39,23 @@
             this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.MainWindow_Tick);
             // 
+            // LiveIndicator
+            // 
+            this.LiveIndicator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LiveIndicator.AutoSize = true;
+            this.LiveIndicator.Font = new System.Drawing.Font("Consolas", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LiveIndicator.ForeColor = System.Drawing.Color.Red;
+            this.LiveIndicator.Location = new System.Drawing.Point(12, 220);
+            this.LiveIndicator.Name = "LiveIndicator";
+            this.LiveIndicator.Size = new System.Drawing.Size(0, 32);
+            this.LiveIndicator.TabIndex = 0;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.LiveIndicator);
             this.Cursor = System.Windows.Forms.Cursors.Cross;
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -58,12 +71,14 @@
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseMove);
             this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainWindow_PreviewKeyDown);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.Timer timer1;
+        public System.Windows.Forms.Label LiveIndicator;
     }
 }
 

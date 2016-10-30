@@ -4,6 +4,7 @@
     {
         MainPlayer,
         NormalBullet,
-        NormalBlock
+        NormalBlock,
+        Hole
     }
 }
