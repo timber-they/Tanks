@@ -53,6 +53,7 @@
     <Compile Include="Backend\Handler.cs" />
     <Compile Include="Backend\InGameEngine.cs" />
     <Compile Include="Backend\Tracer.cs" />
+    <Compile Include="Enums\KeyHandlerAction.cs" />
     <Compile Include="Frontend\UI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +62,7 @@
     </Compile>
     <Compile Include="Objects\Animation.cs" />
     <Compile Include="Objects\Bullet.cs" />
+    <Compile Include="Enums\Direction.cs" />
     <Compile Include="Objects\Field.cs" />
     <Compile Include="Objects\MainPlayer.cs" />
     <Compile Include="Objects\NormalBullet.cs" />

@@ -35,7 +35,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 15;
+            this.timer1.Interval = 10;
             this.timer1.Tick += new System.EventHandler(this.MainWindow_Tick);
             // 
             // MainWindow
@@ -49,8 +49,10 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainWindow_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseClick);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseMove);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainWindow_PreviewKeyDown);
             this.ResumeLayout(false);
 
         }

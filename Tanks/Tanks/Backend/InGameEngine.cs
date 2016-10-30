@@ -34,15 +34,8 @@ namespace Tanks.Backend
             Field.View.Paint (p, Field.Position.Add (Field.Size.Div (2)));
             if (!TickRefresh)
                 return;
-            foreachjumper: // It's just so much easier...
             foreach (var animation in Animations)
-            {
-                var animated = animation.AnimateMovement (p);
-                if (animated)
-                    continue;
-                Animations.Remove (animation);
-                goto foreachjumper;
-            }
+                animation.AnimateMovement(p);
             TickRefresh = false;
         }
 

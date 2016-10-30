@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Painting.Types.Paint;
+using Tanks.Enums;
 using Tanks.Frontend;
 using Tanks.Objects;
 
@@ -11,9 +12,9 @@ namespace Tanks.Backend
 {
     public class Handler
     {
-        public static void KeyInPutHandler (InGameEngine engine, KeyEventArgs args)
+        public static void KeyInPutHandler (InGameEngine engine, Keys key, KeyHandlerAction action)
         {
-            switch (args.KeyData)
+            switch (key)
             {
                 case Keys.KeyCode:
                     break;
@@ -124,38 +125,66 @@ namespace Tanks.Backend
                 case Keys.D9:
                     break;
                 case Keys.A:
-                    if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.Size.X > 10))
-                        break;
-                    if (
-                        engine.Animations.Any (
+                    if (action == KeyHandlerAction.Down)
+                    {
+                        if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.Size.X > 10) ||
+                            engine.Animations.Any (
+                                animation =>
+                                    animation.AnimatedObjectId == engine.Player.Id &&
+                                    animation.Direction == Direction.Left))
+                            break;
+                        if (engine.Animations.Any (
                             animation =>
                                 animation.AnimatedObjectId == engine.Player.Id &&
-                                animation.Destination.X > engine.Player.Position.X))
-                        engine.Animations =
-                            new ObservableCollection<Animation> (engine.Animations.Where (
-                                animation =>
-                                    !(animation.AnimatedObjectId == engine.Player.Id &&
-                                      animation.Destination.X > engine.Player.Position.X)).ToList ());
-                    engine.Animations.Add (new Animation (engine.Player.Id, engine.Player.Position.Add (new Coordinate (-10, 0)), engine));
+                                animation.Direction == Direction.Right))
+                            engine.Animations =
+                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Right)).ToList ());
+                        engine.Animations.Add (new Animation (engine.Player.Id, Direction.Left, engine));
+                    }
+                    else if (action == KeyHandlerAction.Up)
+                    {
+                        engine.Animations = new ObservableCollection<Animation> (
+                            engine.Animations.Where (animation => !(animation.AnimatedObjectId == engine.Player.Id && animation.Direction == Direction.Left))
+                                .ToList ());
+                    }
                     break;
                 case Keys.B:
                     break;
                 case Keys.C:
                     break;
                 case Keys.D:
-                    if (!(engine.Player.Position.X < engine.Field.Size.X) || !(engine.Player.Position.X + engine.Player.Size.X < engine.Field.Size.X))
-                        break;
-                    if (
-                        engine.Animations.Any (
+                    if (action == KeyHandlerAction.Down)
+                    {
+                        if (!(engine.Player.Position.X < engine.Field.Size.X) ||
+                            !(engine.Player.Position.X + engine.Player.Size.X < engine.Field.Size.X) ||
+                            engine.Animations.Any (
+                                animation =>
+                                    animation.AnimatedObjectId == engine.Player.Id &&
+                                    animation.Direction == Direction.Right))
+                            break;
+                        if (engine.Animations.Any (
                             animation =>
                                 animation.AnimatedObjectId == engine.Player.Id &&
-                                animation.Destination.X < engine.Player.Position.X))
-                        engine.Animations =
-                            new ObservableCollection<Animation> (engine.Animations.Where (
-                                animation =>
-                                    !(animation.AnimatedObjectId == engine.Player.Id &&
-                                      animation.Destination.X < engine.Player.Position.X)).ToList ());
-                    engine.Animations.Add (new Animation (engine.Player.Id, engine.Player.Position.Add (new Coordinate (10, 0)), engine));
+                                animation.Direction == Direction.Left))
+                            engine.Animations =
+                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Left)).ToList ());
+                        engine.Animations.Add (new Animation (engine.Player.Id, Direction.Right, engine));
+                    }
+                    else if (action == KeyHandlerAction.Up)
+                    {
+                        engine.Animations = new ObservableCollection<Animation> (
+                            engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Right))
+                                .ToList ());
+                    }
                     break;
                 case Keys.E:
                     break;
@@ -186,19 +215,30 @@ namespace Tanks.Backend
                 case Keys.R:
                     break;
                 case Keys.S:
-                    if (!(engine.Player.Position.Y < engine.Field.Size.Y) || !(engine.Player.Position.Y + engine.Player.Size.Y < engine.Field.Size.Y))
-                        break;
-                    if (
-                        engine.Animations.Any (
-                            animation =>
-                                animation.AnimatedObjectId == engine.Player.Id &&
-                                animation.Destination.Y < engine.Player.Position.Y))
-                        engine.Animations =
-                            new ObservableCollection<Animation> (engine.Animations.Where (
+                    if (action == KeyHandlerAction.Down)
+                    {
+                        if (!(engine.Player.Position.Y < engine.Field.Size.Y) || !(engine.Player.Position.Y + engine.Player.Size.Y < engine.Field.Size.Y) || engine.Animations.Any (animation => animation.AnimatedObjectId == engine.Player.Id && animation.Direction == Direction.Down))
+                            break;
+                        if (engine.Animations.Any (
                                 animation =>
-                                    !(animation.AnimatedObjectId == engine.Player.Id &&
-                                      animation.Destination.Y < engine.Player.Position.Y)).ToList ());
-                    engine.Animations.Add (new Animation (engine.Player.Id, engine.Player.Position.Add (new Coordinate (0, 10)), engine));
+                                    animation.AnimatedObjectId == engine.Player.Id &&
+                                    animation.Direction == Direction.Up))
+                            engine.Animations =
+                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Up)).ToList ());
+                        engine.Animations.Add (new Animation (engine.Player.Id, Direction.Down, engine));
+                    }
+                    else if (action == KeyHandlerAction.Up)
+                    {
+                        engine.Animations = new ObservableCollection<Animation> (
+                            engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Down))
+                                .ToList ());
+                    }
                     break;
                 case Keys.T:
                     break;
@@ -207,19 +247,30 @@ namespace Tanks.Backend
                 case Keys.V:
                     break;
                 case Keys.W:
-                    if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.Size.Y > 10))
+                    if(action == KeyHandlerAction.Down)
+                    { 
+                    if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.Size.Y > 10) || engine.Animations.Any (animation => animation.AnimatedObjectId == engine.Player.Id && animation.Direction == Direction.Up))
                         break;
-                    if (
-                        engine.Animations.Any (
+                    if (engine.Animations.Any (
                             animation =>
                                 animation.AnimatedObjectId == engine.Player.Id &&
-                                animation.Destination.Y > engine.Player.Position.Y))
+                                animation.Direction == Direction.Down))
                         engine.Animations =
                             new ObservableCollection<Animation> (engine.Animations.Where (
                                 animation =>
                                     !(animation.AnimatedObjectId == engine.Player.Id &&
-                                      animation.Destination.Y > engine.Player.Position.Y)).ToList ());
-                    engine.Animations.Add (new Animation (engine.Player.Id, engine.Player.Position.Add (new Coordinate (0, -10)), engine));
+                                      animation.Direction == Direction.Down)).ToList ());
+                    engine.Animations.Add (new Animation (engine.Player.Id, Direction.Up, engine));
+                    }
+                    else if (action == KeyHandlerAction.Up)
+                    {
+                        engine.Animations = new ObservableCollection<Animation> (
+                            engine.Animations.Where (
+                                    animation =>
+                                        !(animation.AnimatedObjectId == engine.Player.Id &&
+                                          animation.Direction == Direction.Up))
+                                .ToList ());
+                    }
                     break;
                 case Keys.X:
                     break;
