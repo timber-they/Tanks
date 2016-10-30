@@ -13,14 +13,13 @@ namespace Tanks.Frontend.UI
         public MainWindow()
         {
             InitializeComponent();
-            InGameEngine = new InGameEngine(this);
         }
 
         private void MainWindow_Paint(object sender, PaintEventArgs e) => InGameEngine.Paint(e.Graphics);
 
         private void MainWindow_Tick (object sender, EventArgs e) => InGameEngine.OnTick();
 
-        private void MainWindow_MouseClick (object sender, MouseEventArgs e) => InGameEngine.OnClick();
+        private void MainWindow_MouseClick (object sender, MouseEventArgs e) => Handler.MouseInputHandler(e.Button, InGameEngine);
 
         private void MainWindow_MouseMove(object sender, MouseEventArgs e) => InGameEngine.OnMouseMove(new Coordinate(e.X, e.Y));
 
@@ -30,5 +29,12 @@ namespace Tanks.Frontend.UI
             => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Down);
 
         private void MainWindow_KeyUp(object sender, KeyEventArgs e) => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Up);
+
+        private void MainWindow_Load (object sender, EventArgs e)
+        {
+            this.MinimumSize = this.Size;
+            this.MaximumSize = this.Size;
+            InGameEngine = new InGameEngine (this);
+        }
     }
 }

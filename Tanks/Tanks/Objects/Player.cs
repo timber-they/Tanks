@@ -14,7 +14,7 @@ namespace Tanks.Objects
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
-                    new Line(new Coordinate(525, 319), new Coordinate(525, 227.5786f),
+                    new Line(new Coordinate(525, 319), new Coordinate(617, 319),
                         new Colour(Color.FromArgb(-16711936)), 7),
                     new Polygon(4, 2, new Colour(Color.FromArgb(-65536)), new Coordinate(468, 262),
                         new Coordinate(116, 116), new Colour(Color.Empty), 0, 45),
