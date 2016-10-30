@@ -7,7 +7,9 @@ namespace Tanks.Objects
 {
     public class Bullet : GameObject
     {
-        public Bullet(Coordinate position, Coordinate size, Colour colour, float rotation, decimal id)
+        public int AvailableCollisionCount { get; set; }
+
+        public Bullet(Coordinate position, Coordinate size, Colour colour, float rotation, decimal id, int availableCollisionCount)
             : base(
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
@@ -19,6 +21,7 @@ namespace Tanks.Objects
                 }) {Position = new Coordinate(0, 0)}, id)
         {
             View.Shapes[1].MainColour = colour;
+            AvailableCollisionCount = availableCollisionCount;
         }
     }
 }

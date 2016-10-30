@@ -50,11 +50,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\Collision.cs" />
     <Compile Include="Backend\Handler.cs" />
     <Compile Include="Backend\InGameEngine.cs" />
     <Compile Include="Backend\Tracer.cs" />
     <Compile Include="Enums\AddableObjects.cs" />
     <Compile Include="Enums\KeyHandlerAction.cs" />
+    <Compile Include="Enums\Colliding.cs" />
     <Compile Include="Frontend\UI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

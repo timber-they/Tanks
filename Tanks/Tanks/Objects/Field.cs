@@ -45,7 +45,7 @@ namespace Tanks.Objects
                     if(player == null)
                         throw new Exception("No Player defined!");
                     var bullet = new NormalBullet(player.Position.Add(player.Size.Div(2)).Add(new Coordinate((float)Math.Cos(Physomatik.ToRadian(player.Rotation)) * player.Size.Pyth / 2, (float)Math.Sin(Physomatik.ToRadian(player.Rotation)) * player.Size.Pyth / 2)), new Coordinate(10, 30), player.Rotation,
-                        engine.CurrentId);
+                        engine.CurrentId, 1);
                     Objects.Add(bullet);
                     engine.Animations.Add(new AngularMoveAnimation(bullet, bullet.Rotation, engine, 10));
                     break;

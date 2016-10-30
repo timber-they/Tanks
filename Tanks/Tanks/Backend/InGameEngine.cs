@@ -36,16 +36,7 @@ namespace Tanks.Backend
         {
             if (Animations.Count <= 0)
                 return;
-            Animations =
-                new ObservableCollection<Animation> (
-                    Animations.Where (
-                        animation =>
-                            !(animation.AnimatedObject is Bullet && (BiggerThanFieldX(animation.AnimatedObject) || BiggerThanFieldY(animation.AnimatedObject) || animation.AnimatedObject.Position.X < 0 || animation.AnimatedObject.Position.Y < 0)) &&
-                            !(animation.AnimatedObject is Player &&
-                              (BiggerThanFieldX(animation.AnimatedObject) && ((NormalMoveAnimation) animation).Direction == Direction.Right || 
-                               BiggerThanFieldY(animation.AnimatedObject) && ((NormalMoveAnimation) animation).Direction == Direction.Down ||
-                               animation.AnimatedObject.Position.X < 0 && ((NormalMoveAnimation)animation).Direction == Direction.Left ||
-                               animation.AnimatedObject.Position.Y < 0 && ((NormalMoveAnimation)animation).Direction == Direction.Up))));
+            Animations = Collision.UpdateAnimations(Animations, this);
             Field.Objects = new ObservableCollection<GameObject> (
                 Field.Objects.Where (
                     o => !(o is Bullet && Animations.All (animation => animation.AnimatedObject.Id != o.Id))));
@@ -53,12 +44,6 @@ namespace Tanks.Backend
                 animation.AnimateMovement ();
             Form.Refresh ();
         }
-
-        private bool BiggerThanFieldX(GameObject obj)
-            => obj.Position.X > Field.Size.X || obj.Position.X + obj.Size.X > Field.Size.X;
-
-        private bool BiggerThanFieldY(GameObject obj)
-            => obj.Position.Y > Field.Size.Y || obj.Position.Y + obj.Size.Y > Field.Size.Y;
 
         public InGameEngine (MainWindow form)
         {
@@ -68,7 +53,7 @@ namespace Tanks.Backend
 
         public void Init ()
         {
-            Field = new Field (new Coordinate (0, 0), new Coordinate (Form.Width - 50, Form.Height - 50), new ObservableCollection<GameObject> (), CurrentId);
+            Field = new Field (new Coordinate (0, 0), new Coordinate (Form.Width, Form.Height), new ObservableCollection<GameObject> (), CurrentId);
             Field.AddObject (AddableObjects.MainPlayer, this);
             Animations = new ObservableCollection<Animation> ();
         }
