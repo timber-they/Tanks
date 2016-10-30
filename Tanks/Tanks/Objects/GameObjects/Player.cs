@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using Painting.Types.Paint;
 
-namespace Tanks.Objects
+namespace Tanks.Objects.GameObjects
 {
     public class Player : GameObject
     {

@@ -1,5 +1,6 @@
 ﻿using Painting.Types.Paint;
 using Tanks.Objects;
+using Tanks.Objects.GameObjects;
 
 namespace Tanks.Backend
 {

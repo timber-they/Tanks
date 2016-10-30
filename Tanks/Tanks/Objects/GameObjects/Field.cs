@@ -7,7 +7,7 @@ using Tanks.Backend;
 using Tanks.Enums;
 using Tanks.Objects.Animation;
 
-namespace Tanks.Objects
+namespace Tanks.Objects.GameObjects
 {
     public class Field : GameObject
     {
@@ -33,7 +33,7 @@ namespace Tanks.Objects
             Objects = objects;
         }
 
-        public void AddObject(AddableObjects obj, InGameEngine engine)
+        public void AddObject(AddableObjects obj, InGameEngine engine, Coordinate position = null)
         {
             switch (obj)
             {
@@ -48,6 +48,11 @@ namespace Tanks.Objects
                         engine.CurrentId, 1);
                     Objects.Add(bullet);
                     engine.Animations.Add(new AngularMoveAnimation(bullet, bullet.Rotation, engine, 10));
+                    break;
+                case AddableObjects.NormalBlock:
+                    if(position == null)
+                        break;
+                    Objects.Add (new Block (position, new Coordinate (100, 100), engine.CurrentId, false));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(obj), obj, null);

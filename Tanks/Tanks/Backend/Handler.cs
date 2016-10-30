@@ -64,7 +64,7 @@ namespace Tanks.Backend
                 case Keys.HanjaMode:
                     break;
                 case Keys.Escape:
-                    engine.Form.Close();
+                        engine.Form.Close();
                     break;
                 case Keys.IMEConvert:
                     break;
@@ -91,6 +91,7 @@ namespace Tanks.Backend
                 case Keys.Right:
                     break;
                 case Keys.Down:
+                    engine.Form.WindowState = FormWindowState.Minimized;
                     break;
                 case Keys.Select:
                     break;

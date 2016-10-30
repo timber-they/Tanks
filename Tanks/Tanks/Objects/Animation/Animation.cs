@@ -1,4 +1,5 @@
 ﻿using Tanks.Backend;
+using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
 {

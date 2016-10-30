@@ -3,6 +3,7 @@ using System.Linq;
 using Painting.Types.Paint;
 using Tanks.Backend;
 using Tanks.Enums;
+using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
 {

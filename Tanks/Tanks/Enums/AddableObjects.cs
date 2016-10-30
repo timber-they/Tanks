@@ -3,6 +3,7 @@
     public enum AddableObjects
     {
         MainPlayer,
-        NormalBullet
+        NormalBullet,
+        NormalBlock
     }
 }

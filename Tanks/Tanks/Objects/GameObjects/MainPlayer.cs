@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using Painting.Types.Paint;
 
-namespace Tanks.Objects
+namespace Tanks.Objects.GameObjects
 {
     public class MainPlayer : Player
     {

@@ -10,6 +10,7 @@ using Tanks.Enums;
 using Tanks.Frontend.UI;
 using Tanks.Objects;
 using Tanks.Objects.Animation;
+using Tanks.Objects.GameObjects;
 
 namespace Tanks.Backend
 {
@@ -55,6 +56,7 @@ namespace Tanks.Backend
         {
             Field = new Field (new Coordinate (0, 0), new Coordinate (Form.Width, Form.Height), new ObservableCollection<GameObject> (), CurrentId);
             Field.AddObject (AddableObjects.MainPlayer, this);
+            Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500,500));
             Animations = new ObservableCollection<Animation> ();
         }
 

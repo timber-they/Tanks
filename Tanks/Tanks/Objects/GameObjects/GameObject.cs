@@ -1,7 +1,9 @@
 ﻿using System;
 using Painting.Types.Paint;
+using Tanks.Enums;
+using Tanks.Types;
 
-namespace Tanks.Objects
+namespace Tanks.Objects.GameObjects
 {
     public class GameObject
     {
@@ -65,6 +67,24 @@ namespace Tanks.Objects
             Rotation = rotation;
             if (this is Field)
                 View = view;
+        }
+
+        public Direction Cuts(GameObject other)
+        {
+            var cuttingx = Cuts(Position.X, Size.X, other.Position.X, other.Size.X, true);
+            var cuttingy = Cuts(Position.Y, Size.Y, other.Position.Y, other.Size.Y, false);
+            return cuttingx.Direction == Direction.Nothing || cuttingy.Direction == Direction.Nothing
+                ? Direction.Nothing
+                : (cuttingx.Float < cuttingy.Float ? cuttingx.Direction : cuttingy.Direction);
+        }
+
+        public DirectionFloat Cuts (float pos0, float size0, float pos1, float size1, bool x) //From Direction
+        {
+            if (pos0 + size0 > pos1 && pos0 + size0 < pos1 + size1)
+                return new DirectionFloat(x ? Direction.Right : Direction.Down, pos0 + size0 - pos1);
+            if (pos1 + size1 > pos0 && pos1 + size1 < pos0 + size0)
+                return new DirectionFloat(x ? Direction.Left : Direction.Up, pos1 + size1 - pos0);
+            return new DirectionFloat(Direction.Nothing, -1);
         }
     }
 }
