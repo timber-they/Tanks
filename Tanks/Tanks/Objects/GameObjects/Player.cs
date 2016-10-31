@@ -13,17 +13,16 @@ namespace Tanks.Objects.GameObjects
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
-                    new Line(new Coordinate(525, 319), new Coordinate(617, 319),
-                        new Colour(Color.FromArgb(-16711936)), 7),
-                    new Polygon(4, 2, new Colour(Color.FromArgb(-65536)), new Coordinate(468, 262),
-                        new Coordinate(116, 116), new Colour(Color.Empty), 0, 45),
-                    new Ellipse(0, new Colour(Color.Empty), new Coordinate(475, 270), new Coordinate(100, 100),
-                        new Colour(Color.FromArgb(-16777216)), 0f),
+                    new Line(new Coordinate(57, 57), new Coordinate(149, 57), new Colour(Color.FromArgb(-16711936)), 7),
+                    new Painting.Types.Paint.Rectangle(2, new Colour(Color.FromArgb(-65536)), new Coordinate(17, 15), new Coordinate(84, 84),
+                        new Colour(Color.Empty), 0),
+                    new Ellipse(0, new Colour(Color.Empty), new Coordinate(7, 8), new Coordinate(100, 100),
+                        new Colour(Color.FromArgb(-16777216)), 0),
                 }) {Position = new Coordinate(0, 0)}, id)
         {
             Lives = lives;
-            View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb() * 3));
-            var polygon = View.Shapes[1] as Polygon;
+            View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb()*3));
+            var polygon = View.Shapes[1] as Painting.Types.Paint.Rectangle;
             if (polygon != null)
                 polygon.LineColour = colour;
         }
