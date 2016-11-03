@@ -13,9 +13,7 @@ namespace Tanks.Objects.Animation
 
         public NormalMoveAnimation (GameObject animatedObject, Direction direction, InGameEngine engine, float speed) : base(animatedObject, engine, speed)
         {
-            AnimatedObject = animatedObject;
             Direction = direction;
-            Engine = engine;
         }
 
         public override void AnimateMovement ()

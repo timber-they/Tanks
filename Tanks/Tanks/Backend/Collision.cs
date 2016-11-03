@@ -15,8 +15,6 @@ namespace Tanks.Backend
             InGameEngine engine)
         {
             var fin = new ObservableCollection<Animation> ();
-            animations.Where (
-                animation => ObjectColliding (animation.AnimatedObject, engine, animation) == Colliding.NoCollide);
             foreach (var animation in animations)
             {
                 var colliding = ObjectColliding (animation.AnimatedObject, engine, animation);

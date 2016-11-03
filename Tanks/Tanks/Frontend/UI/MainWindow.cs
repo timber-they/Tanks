@@ -23,12 +23,12 @@ namespace Tanks.Frontend.UI
 
         private void MainWindow_MouseMove(object sender, MouseEventArgs e) => InGameEngine.OnMouseMove(new Coordinate(e.X, e.Y));
 
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e) => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Down);
+        //private void MainWindow_KeyDown(object sender, KeyEventArgs e) => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Down);
 
         private void MainWindow_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-            => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Down);
+            => InGameEngine.OnKeyDown(e);
 
-        private void MainWindow_KeyUp(object sender, KeyEventArgs e) => Handler.KeyInPutHandler(InGameEngine, e.KeyCode, KeyHandlerAction.Up);
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e) => InGameEngine.OnKeyUp(e);
 
         private void MainWindow_Load (object sender, EventArgs e)
         {

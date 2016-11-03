@@ -21,6 +21,7 @@ namespace Tanks.Backend
         public Field Field;
         private decimal _currentId;
         public ObservableCollection<Animation> Animations { get; set; }
+        public ObservableCollection<Keys> PressedKeys { get; set; }
 
         public decimal CurrentId
         {
@@ -35,6 +36,9 @@ namespace Tanks.Backend
 
         public void OnTick ()
         {
+            Animations = new ObservableCollection<Animation> (Animations.Where (animation => !(animation.AnimatedObject is MainPlayer)));
+            foreach (var key in PressedKeys)
+                Handler.KeyInPutHandler (this, key, KeyHandlerAction.Down);
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
             if (Animations.Count <= 0)
@@ -56,6 +60,7 @@ namespace Tanks.Backend
 
         public void Init ()
         {
+            PressedKeys = new ObservableCollection<Keys>();
             Field = new Field (new Coordinate (0, 0), new Coordinate (Window.Width, Window.Height), new ObservableCollection<GameObject> (), CurrentId);
             Field.AddObject (AddableObjects.MainPlayer, this);
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500,500));
@@ -86,6 +91,20 @@ namespace Tanks.Backend
                   };
                   Window.Invoke (invoker);
               }));
+        }
+
+        public void OnKeyDown(PreviewKeyDownEventArgs e)
+        {
+            Handler.KeyInPutHandler (this, e.KeyCode, KeyHandlerAction.Down);
+            if(!PressedKeys.Contains(e.KeyData))
+                PressedKeys.Add(e.KeyData);
+        }
+
+        public void OnKeyUp(KeyEventArgs e)
+        {
+            Handler.KeyInPutHandler(this, e.KeyCode, KeyHandlerAction.Up);
+            while (PressedKeys.Contains(e.KeyData))
+                PressedKeys.Remove(e.KeyData);
         }
     }
 }
