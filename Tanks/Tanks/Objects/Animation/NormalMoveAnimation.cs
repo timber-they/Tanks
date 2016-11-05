@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using System.Linq;
-using Painting.Types.Paint;
-using Tanks.Backend;
+﻿using Painting.Types.Paint;
 using Tanks.Enums;
 using Tanks.Objects.GameObjects;
 
@@ -9,14 +6,15 @@ namespace Tanks.Objects.Animation
 {
     public class NormalMoveAnimation : Animation
     {
-        public Direction Direction { get; set; }
-
-        public NormalMoveAnimation (GameObject animatedObject, Direction direction, InGameEngine engine, float speed) : base(animatedObject, engine, speed)
+        public NormalMoveAnimation(GameObject animatedObject, Direction direction, float speed)
+            : base(animatedObject, speed)
         {
             Direction = direction;
         }
 
-        public override void AnimateMovement ()
+        public Direction Direction { get; set; }
+
+        public override void AnimateMovement()
         {
             if (AnimatedObject == null)
                 return;

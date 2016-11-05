@@ -1,24 +1,20 @@
-﻿using Tanks.Backend;
-using Tanks.Objects.GameObjects;
+﻿using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
 {
     public class Animation
     {
-        public GameObject AnimatedObject { get; set; }
-        public InGameEngine Engine { get; set; }
-        public float Speed { get; set; }
-
-        public Animation(GameObject animatedObject, InGameEngine engine, float speed)
+        protected Animation(GameObject animatedObject, float speed)
         {
             AnimatedObject = animatedObject;
-            Engine = engine;
             Speed = speed;
         }
 
+        public GameObject AnimatedObject { get; set; }
+        protected float Speed { get; set; }
+
         public virtual void AnimateMovement()
         {
-            
         }
     }
 }

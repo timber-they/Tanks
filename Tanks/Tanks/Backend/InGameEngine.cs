@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +6,6 @@ using System.Windows.Forms;
 using Painting.Types.Paint;
 using Tanks.Enums;
 using Tanks.Frontend.UI;
-using Tanks.Objects;
 using Tanks.Objects.Animation;
 using Tanks.Objects.GameObjects;
 
@@ -16,12 +13,19 @@ namespace Tanks.Backend
 {
     public class InGameEngine
     {
-        public MainWindow Window;
+        private decimal _currentId;
 
         public Field Field;
-        private decimal _currentId;
+        public readonly MainWindow Window;
+
+        public InGameEngine(MainWindow window)
+        {
+            Window = window;
+            Init();
+        }
+
         public ObservableCollection<Animation> Animations { get; set; }
-        public ObservableCollection<Keys> PressedKeys { get; set; }
+        private ObservableCollection<Keys> PressedKeys { get; set; }
 
         public decimal CurrentId
         {
@@ -32,71 +36,68 @@ namespace Tanks.Backend
             }
         }
 
-        public void Paint (Graphics p) => Field.View.Paint (p, Field.Position.Add (Field.Size.Div (2)));
-
-        public void OnTick ()
+        public MainPlayer Player
         {
-            Animations = new ObservableCollection<Animation> (Animations.Where (animation => !(animation.AnimatedObject is MainPlayer)));
+            get { return Field.GetMainPlayer; }
+            private set
+            {
+                for (var i = 0; i < Field.Objects.Count; i++)
+                    if (Field.Objects[i] is MainPlayer)
+                        Field.Objects[i] = value;
+                Window.Refresh();
+            }
+        }
+
+        public void Paint(Graphics p) => Field.View.Paint(p, Field.Position.Add(Field.Size.Div(2)));
+
+        public void OnTick()
+        {
+            Animations =
+                new ObservableCollection<Animation>(
+                    Animations.Where(animation => !(animation.AnimatedObject is MainPlayer)));
             foreach (var key in PressedKeys)
-                Handler.KeyInPutHandler (this, key, KeyHandlerAction.Down);
+                Handler.KeyInPutHandler(this, key, KeyHandlerAction.Down);
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
             if (Animations.Count <= 0)
                 return;
             Animations = Collision.UpdateAnimations(Animations, this);
-            Field.Objects = new ObservableCollection<GameObject> (
-                Field.Objects.Where (
-                    o => !(o is Bullet && Animations.All (animation => animation.AnimatedObject.Id != o.Id))));
+            Field.Objects = new ObservableCollection<GameObject>(
+                Field.Objects.Where(
+                    o => !(o is Bullet && Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
-                animation.AnimateMovement ();
-            Window.Refresh ();
+                animation.AnimateMovement();
+            Window.Refresh();
         }
 
-        public InGameEngine (MainWindow window)
-        {
-            Window = window;
-            Init ();
-        }
-
-        public void Init ()
+        private void Init()
         {
             PressedKeys = new ObservableCollection<Keys>();
-            Field = new Field (new Coordinate (0, 0), new Coordinate (Window.Width, Window.Height), new ObservableCollection<GameObject> (), CurrentId);
-            Field.AddObject (AddableObjects.MainPlayer, this);
-            Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500,500));
-            Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000,500));
-            Animations = new ObservableCollection<Animation> ();
+            Field = new Field(new Coordinate(0, 0), new Coordinate(Window.Width, Window.Height),
+                new ObservableCollection<GameObject>(), CurrentId);
+            Field.AddObject(AddableObjects.MainPlayer, this);
+            Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500, 500));
+            Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
+            Animations = new ObservableCollection<Animation>();
         }
 
-        public MainPlayer Player
+        public void OnMouseMove(Coordinate position)
         {
-            get { return Field.GetMainPlayer; }
-            set
+            Task.Run(async () => await Task.Run(() =>
             {
-                for (var i = 0; i < Field.Objects.Count; i++)
-                    if (Field.Objects[i] is MainPlayer)
-                        Field.Objects[i] = value;
-                Window.Refresh ();
-            }
-        }
-
-        public void OnMouseMove (Coordinate position)
-        {
-            Task.Run (async () => await Task.Run (() =>
-              {
-                  Tracer.TraceMouse (position, Player);
-                  MethodInvoker invoker = delegate ()
-                  {
-                      Player = Player;
-                  };
-                  Window.Invoke (invoker);
-              }));
+                Tracer.TraceMouse(position, Player);
+                MethodInvoker invoker = delegate { Player = Player; };
+                if (Window.InvokeRequired)
+                    Window.Invoke(invoker);
+                else
+                    invoker();
+            }));
         }
 
         public void OnKeyDown(PreviewKeyDownEventArgs e)
         {
-            Handler.KeyInPutHandler (this, e.KeyCode, KeyHandlerAction.Down);
-            if(!PressedKeys.Contains(e.KeyData))
+            Handler.KeyInPutHandler(this, e.KeyCode, KeyHandlerAction.Down);
+            if (!PressedKeys.Contains(e.KeyData))
                 PressedKeys.Add(e.KeyData);
         }
 

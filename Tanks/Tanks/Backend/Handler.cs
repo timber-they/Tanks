@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Painting.Types.Paint;
 using Tanks.Enums;
-using Tanks.Frontend;
-using Tanks.Objects;
 using Tanks.Objects.Animation;
 
 namespace Tanks.Backend
 {
-    public class Handler
+    public static class Handler
     {
-        public static void KeyInPutHandler (InGameEngine engine, Keys key, KeyHandlerAction action)
+        public static void KeyInPutHandler(InGameEngine engine, Keys key, KeyHandlerAction action)
         {
             switch (key)
             {
@@ -64,7 +60,7 @@ namespace Tanks.Backend
                 case Keys.HanjaMode:
                     break;
                 case Keys.Escape:
-                        engine.Window.Close();
+                    engine.Window.Close();
                     break;
                 case Keys.IMEConvert:
                     break;
@@ -128,30 +124,33 @@ namespace Tanks.Backend
                 case Keys.D9:
                     break;
                 case Keys.A:
-                    if (action == KeyHandlerAction.Down)
+                    if (action == KeyHandlerAction.Down) //Isn't this a beautiful mess? Something like that happens with too much laziness ;)
                     {
                         if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.Size.X > 10) ||
-                            engine.Animations.Any (
+                            engine.Animations.Any(
                                 animation =>
-                                    animation.AnimatedObject.Id == engine.Player.Id &&
-                                    ((NormalMoveAnimation) animation).Direction == Direction.Left))
+                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                    (((NormalMoveAnimation) animation).Direction == Direction.Left)))
                             break;
-                        if (engine.Animations.Any (
+                        if (engine.Animations.Any(
                             animation =>
-                                animation.AnimatedObject.Id == engine.Player.Id &&
-                                ((NormalMoveAnimation) animation).Direction == Direction.Right))
+                                (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                (((NormalMoveAnimation) animation).Direction == Direction.Right)))
                             engine.Animations =
-                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                new ObservableCollection<Animation>(engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Right)).ToList ());
-                        engine.Animations.Add (new NormalMoveAnimation (engine.Player, Direction.Left, engine, 3));
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Right))).ToList());
+                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Left, 3));
                     }
                     else if (action == KeyHandlerAction.Up)
                     {
-                        engine.Animations = new ObservableCollection<Animation> (
-                            engine.Animations.Where (animation => !(animation.AnimatedObject.Id == engine.Player.Id && ((NormalMoveAnimation) animation).Direction == Direction.Left))
-                                .ToList ());
+                        engine.Animations = new ObservableCollection<Animation>(
+                            engine.Animations.Where(
+                                    animation =>
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Left)))
+                                .ToList());
                     }
                     break;
                 case Keys.B:
@@ -163,30 +162,30 @@ namespace Tanks.Backend
                     {
                         if (!(engine.Player.Position.X < engine.Field.Size.X) ||
                             !(engine.Player.Position.X + engine.Player.Size.X < engine.Field.Size.X) ||
-                            engine.Animations.Any (
+                            engine.Animations.Any(
                                 animation =>
-                                    animation.AnimatedObject.Id == engine.Player.Id &&
-                                    ((NormalMoveAnimation) animation).Direction == Direction.Right))
+                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                    (((NormalMoveAnimation) animation).Direction == Direction.Right)))
                             break;
-                        if (engine.Animations.Any (
+                        if (engine.Animations.Any(
                             animation =>
-                                animation.AnimatedObject.Id == engine.Player.Id &&
-                                ((NormalMoveAnimation) animation).Direction == Direction.Left))
+                                (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                (((NormalMoveAnimation) animation).Direction == Direction.Left)))
                             engine.Animations =
-                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                new ObservableCollection<Animation>(engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Left)).ToList ());
-                        engine.Animations.Add (new NormalMoveAnimation (engine.Player, Direction.Right, engine, 3));
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Left))).ToList());
+                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Right, 3));
                     }
                     else if (action == KeyHandlerAction.Up)
                     {
-                        engine.Animations = new ObservableCollection<Animation> (
-                            engine.Animations.Where (
+                        engine.Animations = new ObservableCollection<Animation>(
+                            engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Right))
-                                .ToList ());
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Right)))
+                                .ToList());
                     }
                     break;
                 case Keys.E:
@@ -220,27 +219,32 @@ namespace Tanks.Backend
                 case Keys.S:
                     if (action == KeyHandlerAction.Down)
                     {
-                        if (!(engine.Player.Position.Y < engine.Field.Size.Y) || !(engine.Player.Position.Y + engine.Player.Size.Y < engine.Field.Size.Y) || engine.Animations.Any (animation => animation.AnimatedObject.Id == engine.Player.Id && ((NormalMoveAnimation) animation).Direction == Direction.Down))
-                            break;
-                        if (engine.Animations.Any (
+                        if (!(engine.Player.Position.Y < engine.Field.Size.Y) ||
+                            !(engine.Player.Position.Y + engine.Player.Size.Y < engine.Field.Size.Y) ||
+                            engine.Animations.Any(
                                 animation =>
-                                    animation.AnimatedObject.Id == engine.Player.Id &&
-                                    ((NormalMoveAnimation) animation).Direction == Direction.Up))
+                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                    (((NormalMoveAnimation) animation).Direction == Direction.Down)))
+                            break;
+                        if (engine.Animations.Any(
+                            animation =>
+                                (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                (((NormalMoveAnimation) animation).Direction == Direction.Up)))
                             engine.Animations =
-                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                new ObservableCollection<Animation>(engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Up)).ToList ());
-                        engine.Animations.Add (new NormalMoveAnimation (engine.Player, Direction.Down, engine, 3));
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Up))).ToList());
+                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Down, 3));
                     }
                     else if (action == KeyHandlerAction.Up)
                     {
-                        engine.Animations = new ObservableCollection<Animation> (
-                            engine.Animations.Where (
+                        engine.Animations = new ObservableCollection<Animation>(
+                            engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Down))
-                                .ToList ());
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Down)))
+                                .ToList());
                     }
                     break;
                 case Keys.T:
@@ -252,27 +256,31 @@ namespace Tanks.Backend
                 case Keys.W:
                     if (action == KeyHandlerAction.Down)
                     {
-                        if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.Size.Y > 10) || engine.Animations.Any (animation => animation.AnimatedObject.Id == engine.Player.Id && ((NormalMoveAnimation) animation).Direction == Direction.Up))
-                            break;
-                        if (engine.Animations.Any (
+                        if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.Size.Y > 10) ||
+                            engine.Animations.Any(
                                 animation =>
-                                    animation.AnimatedObject.Id == engine.Player.Id &&
-                                    ((NormalMoveAnimation) animation).Direction == Direction.Down))
+                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                    (((NormalMoveAnimation) animation).Direction == Direction.Up)))
+                            break;
+                        if (engine.Animations.Any(
+                            animation =>
+                                (animation.AnimatedObject.Id == engine.Player.Id) &&
+                                (((NormalMoveAnimation) animation).Direction == Direction.Down)))
                             engine.Animations =
-                                new ObservableCollection<Animation> (engine.Animations.Where (
+                                new ObservableCollection<Animation>(engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Down)).ToList ());
-                        engine.Animations.Add (new NormalMoveAnimation (engine.Player, Direction.Up, engine, 3));
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Down))).ToList());
+                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Up, 3));
                     }
                     else if (action == KeyHandlerAction.Up)
                     {
-                        engine.Animations = new ObservableCollection<Animation> (
-                            engine.Animations.Where (
+                        engine.Animations = new ObservableCollection<Animation>(
+                            engine.Animations.Where(
                                     animation =>
-                                        !(animation.AnimatedObject.Id == engine.Player.Id &&
-                                          ((NormalMoveAnimation) animation).Direction == Direction.Up))
-                                .ToList ());
+                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
+                                          (((NormalMoveAnimation) animation).Direction == Direction.Up)))
+                                .ToList());
                     }
                     break;
                 case Keys.X:
@@ -476,16 +484,16 @@ namespace Tanks.Backend
                 case Keys.Alt:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException ();
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
-        public static void MouseInputHandler (MouseButtons button, InGameEngine engine)
+        public static void MouseInputHandler(MouseButtons button, InGameEngine engine)
         {
             switch (button)
             {
                 case MouseButtons.Left:
-                    engine.Field.AddObject (AddableObjects.NormalBullet, engine);
+                    engine.Field.AddObject(AddableObjects.NormalBullet, engine);
                     break;
                 case MouseButtons.None:
                     break;
@@ -498,7 +506,7 @@ namespace Tanks.Backend
                 case MouseButtons.XButton2:
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException (nameof (button), button, null);
+                    throw new ArgumentOutOfRangeException(nameof(button), button, null);
             }
         }
     }
