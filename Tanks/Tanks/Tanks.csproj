@@ -73,6 +73,7 @@
     <Compile Include="Objects\GameObjects\Explosion.cs" />
     <Compile Include="Objects\GameObjects\Field.cs" />
     <Compile Include="Objects\GameObjects\MainPlayer.cs" />
+    <Compile Include="Objects\GameObjects\Mine.cs" />
     <Compile Include="Objects\GameObjects\NormalBullet.cs" />
     <Compile Include="Objects\GameObjects\Player.cs" />
     <Compile Include="Objects\GameObjects\Hole.cs" />

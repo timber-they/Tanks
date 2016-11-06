@@ -76,7 +76,7 @@ namespace Tanks.Backend
             Field = new Field(new Coordinate(0, 0), new Coordinate(Window.Width, Window.Height),
                 new ObservableCollection<GameObject>(), CurrentId);
             Field.AddObject(AddableObjects.MainPlayer, this);
-            Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500, 500));
+            Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Animations = new ObservableCollection<Animation>();
         }

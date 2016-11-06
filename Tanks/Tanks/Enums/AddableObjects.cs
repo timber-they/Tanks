@@ -5,7 +5,15 @@
         MainPlayer,
         NormalBullet,
         NormalBlock,
+        DestroyableBlock,
         Hole,
-        Explosion
+        NotDestroyingExplosion,
+        DestroyingExplosion
+    }
+
+    public static class AddableObjectsFunctionality
+    {
+        public static bool PositionRequired(AddableObjects obj)
+            => obj != AddableObjects.MainPlayer && obj != AddableObjects.NormalBullet;
     }
 }

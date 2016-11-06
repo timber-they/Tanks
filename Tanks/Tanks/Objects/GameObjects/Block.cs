@@ -9,13 +9,13 @@ namespace Tanks.Objects.GameObjects
         // ReSharper disable once NotAccessedField.Global
         public bool Destroyable;
 
-        public Block(Coordinate position, Coordinate size, decimal id, bool destroyable, float rotation = 0)
+        public Block(Coordinate position, Coordinate size, decimal id, bool destroyable, Colour mainColor, float rotation = 0)
             : base(
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Polygon(4, 2, new Colour(Color.FromArgb(-8355712)), new Coordinate(725, 354),
-                        new Coordinate(100, 100), new Colour(Color.FromArgb(-4144960)), 0, 45)
+                        new Coordinate(100, 100), mainColor, 0, 45)
                 }) {Position = new Coordinate(0, 0)}, id)
         {
             Destroyable = destroyable;

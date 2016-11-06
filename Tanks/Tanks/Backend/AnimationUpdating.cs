@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Painting.Types.Paint;
 using Tanks.Enums;
 using Tanks.Objects.Animation;
 using Tanks.Objects.GameObjects;
@@ -16,7 +15,7 @@ namespace Tanks.Backend
         {
             var fin = new ObservableCollection<Animation>();
             var enumerable = animations as IList<Animation> ?? animations.ToList();
-            for (var i = 0; i < enumerable.Count(); i++)
+            for (var i = 0; i < enumerable.Count; i++)
             {
                 var animation = enumerable[i];
                 var gameObject = engine.Field.Objects.FirstOrDefault(o => o.Id == animation.AnimatedObject.Id);
@@ -31,8 +30,9 @@ namespace Tanks.Backend
                         case Colliding.Collided:
                             if (gameObject == null)
                                 break;
-                            engine.Field.AddObject(AddableObjects.Explosion, engine, gameObject.CenterPosition);
-                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f, gameObject.Size.QuadraticForm));
+                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, gameObject.CenterPosition);
+                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f,
+                                gameObject.Size.QuadraticForm));
                             break;
                         case Colliding.ReboundedHorizontal:
                         case Colliding.ReboundedVertical:
@@ -47,8 +47,9 @@ namespace Tanks.Backend
                         case Colliding.PlayerVanishing:
                             if (engine.Player.Lives < 2)
                                 engine.Window.Close();
-                            engine.Field.AddObject(AddableObjects.Explosion, engine, engine.Player.CenterPosition);
-                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f, engine.Player.Size));
+                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, engine.Player.CenterPosition);
+                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10,
+                                engine.Player.Size));
                             engine.Player.Position = engine.Player.StartPosition;
                             engine.Player.Lives -= 1;
                             break;
@@ -58,7 +59,8 @@ namespace Tanks.Backend
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                else if (animation is ExplodeAnimation && (gameObject != null && ((ExplodeAnimation) animation).MaxSize.CompareTo(gameObject.Size) == 1))
+                else if (animation is ExplodeAnimation &&
+                         (gameObject != null && ((ExplodeAnimation) animation).MaxSize.CompareTo(gameObject.Size) == 1))
                     fin.Add(animation);
             }
             return fin;
@@ -71,8 +73,8 @@ namespace Tanks.Backend
             if (bullet != null)
                 return BulletColliding(bullet, engine);
             if (player != null)
-                return PlayerColliding(player, engine, ((NormalMoveAnimation) animation).Direction,
-                    (NormalMoveAnimation) animation);
+                return PlayerColliding(player, engine, ((NormalMoveAnimation)animation).Direction,
+                    (NormalMoveAnimation)animation);
             return Colliding.Nothing;
         }
 
