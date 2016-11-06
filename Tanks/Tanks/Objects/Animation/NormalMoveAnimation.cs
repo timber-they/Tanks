@@ -14,7 +14,7 @@ namespace Tanks.Objects.Animation
 
         public Direction Direction { get; set; }
 
-        public override void AnimateMovement()
+        public override void Animate()
         {
             if (AnimatedObject == null)
                 return;

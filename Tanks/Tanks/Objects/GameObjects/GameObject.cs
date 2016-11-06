@@ -69,6 +69,12 @@ namespace Tanks.Objects.GameObjects
             }
         }
 
+        public void ChangeSizeAtCentre(Coordinate newSize)
+        {
+            Position = Position.Sub(newSize.Sub(Size).Div(2));
+            Size = newSize;
+        }
+
         public Direction Cuts(GameObject other)
         {
             var cuttingX = Cuts(Position.X, Size.X, other.Position.X, other.Size.X, true);

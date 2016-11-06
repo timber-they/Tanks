@@ -5,6 +5,7 @@
         MainPlayer,
         NormalBullet,
         NormalBlock,
-        Hole
+        Hole,
+        Explosion
     }
 }

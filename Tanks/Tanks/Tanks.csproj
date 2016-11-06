@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backend\Collision.cs" />
+    <Compile Include="Backend\AnimationUpdating.cs" />
     <Compile Include="Backend\Handler.cs" />
     <Compile Include="Backend\InGameEngine.cs" />
     <Compile Include="Backend\Tracer.cs" />
@@ -65,10 +65,12 @@
     </Compile>
     <Compile Include="Objects\Animation\AngularMoveAnimation.cs" />
     <Compile Include="Objects\Animation\Animation.cs" />
+    <Compile Include="Objects\Animation\ExplodeAnimation.cs" />
     <Compile Include="Objects\Animation\NormalMoveAnimation.cs" />
     <Compile Include="Objects\GameObjects\Block.cs" />
     <Compile Include="Objects\GameObjects\Bullet.cs" />
     <Compile Include="Enums\Direction.cs" />
+    <Compile Include="Objects\GameObjects\Explosion.cs" />
     <Compile Include="Objects\GameObjects\Field.cs" />
     <Compile Include="Objects\GameObjects\MainPlayer.cs" />
     <Compile Include="Objects\GameObjects\NormalBullet.cs" />

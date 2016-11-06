@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using Painting.Types.Paint;
 using Painting.Util;
@@ -40,7 +41,7 @@ namespace Tanks.Objects.GameObjects
             {
                 case AddableObjects.MainPlayer:
                     Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
-                        engine.CurrentId));
+                        engine.CurrentId, new Coordinate(100,100)));
                     break;
                 case AddableObjects.NormalBullet:
                     var player = GetMainPlayer;
@@ -68,6 +69,11 @@ namespace Tanks.Objects.GameObjects
                     if (position == null)
                         throw new Exception("Position not specified!");
                     Objects.Add(new Hole(position, new Coordinate(100, 100), engine.CurrentId));
+                    break;
+                case AddableObjects.Explosion:
+                    if(position == null)
+                        throw new Exception("Position not specified!");
+                    Objects.Add(new Explosion(position, new Coordinate(1,1), engine.CurrentId, new Colour(Color.Black)));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(obj), obj, null);

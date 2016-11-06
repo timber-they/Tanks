@@ -61,12 +61,12 @@ namespace Tanks.Backend
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
             if (Animations.Count <= 0)
                 return;
-            Animations = Collision.UpdateAnimations(Animations, this);
+            Animations = AnimationUpdating.UpdateAnimations(Animations, this);
             Field.Objects = new ObservableCollection<GameObject>(
                 Field.Objects.Where(
-                    o => !(o is Bullet && Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
+                    o => !((o is Bullet || o is Explosion) && Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
-                animation.AnimateMovement();
+                animation.Animate();
             Window.Refresh();
         }
 
@@ -79,6 +79,8 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Animations = new ObservableCollection<Animation>();
+            Field.AddObject(AddableObjects.Explosion, this, new Coordinate(700,700));
+            Animations.Add(new ExplodeAnimation(Field.Objects.Last() as Explosion, 5, new Coordinate(100,100)));
         }
 
         public void OnMouseMove(Coordinate position)

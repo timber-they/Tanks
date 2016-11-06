@@ -9,7 +9,7 @@ using Tanks.Objects.GameObjects;
 
 namespace Tanks.Backend
 {
-    public static class Collision
+    public static class AnimationUpdating
     {
         public static ObservableCollection<Animation> UpdateAnimations(IEnumerable<Animation> animations,
             InGameEngine engine)
@@ -17,36 +17,41 @@ namespace Tanks.Backend
             var fin = new ObservableCollection<Animation>();
             foreach (var animation in animations)
             {
-                var colliding = ObjectColliding(animation.AnimatedObject, engine, animation);
                 var gameObject = engine.Field.Objects.FirstOrDefault(o => o.Id == animation.AnimatedObject.Id);
-                switch (colliding)
+                if (animation is AngularMoveAnimation || animation is NormalMoveAnimation)
                 {
-                    case Colliding.NoCollide:
-                        fin.Add(animation);
-                        break;
-                    case Colliding.Collided:
-                        break;
-                    case Colliding.ReboundedHorizontal:
-                    case Colliding.ReboundedVertical:
-                        if (gameObject == null)
+                    var colliding = ObjectColliding(animation.AnimatedObject, engine, animation);
+                    switch (colliding)
+                    {
+                        case Colliding.NoCollide:
+                            fin.Add(animation);
                             break;
-                        gameObject.Rotation = (colliding == Colliding.ReboundedHorizontal
-                                                  ? 180 - gameObject.Rotation
-                                                  : -gameObject.Rotation)%360;
-                        ((Bullet) gameObject).AvailableCollisionCount--;
-                        fin.Add(new AngularMoveAnimation(gameObject, gameObject.Rotation, 10));
-                        break;
-                    case Colliding.PlayerVanishing:
-                        if (engine.Player.Lives < 2)
-                            engine.Window.Close();
-                        engine.Player.Position = new Coordinate(100, 100);
-                        engine.Player.Lives -= 1;
-                        break;
-                    case Colliding.Nothing:
-                        throw new NotImplementedException("Colliding for this Object not yet implemented!");
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                        case Colliding.Collided:
+                            break;
+                        case Colliding.ReboundedHorizontal:
+                        case Colliding.ReboundedVertical:
+                            if (gameObject == null)
+                                break;
+                            gameObject.Rotation = (colliding == Colliding.ReboundedHorizontal
+                                                      ? 180 - gameObject.Rotation
+                                                      : -gameObject.Rotation)%360;
+                            ((Bullet) gameObject).AvailableCollisionCount--;
+                            fin.Add(new AngularMoveAnimation(gameObject, gameObject.Rotation, 10));
+                            break;
+                        case Colliding.PlayerVanishing:
+                            if (engine.Player.Lives < 2)
+                                engine.Window.Close();
+                            engine.Player.Position = engine.Player.StartPosition;
+                            engine.Player.Lives -= 1;
+                            break;
+                        case Colliding.Nothing:
+                            throw new NotImplementedException("Colliding for this Object not yet implemented!");
+                        default:
+                            throw new ArgumentOutOfRangeException();
+                    }
                 }
+                else if (animation is ExplodeAnimation && (gameObject != null && ((ExplodeAnimation) animation).MaxSize.CompareTo(gameObject.Size) == 1))
+                    fin.Add(animation);
             }
             return fin;
         }
