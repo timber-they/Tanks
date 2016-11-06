@@ -17,6 +17,7 @@ namespace Tanks.Backend
 
         public Field Field;
         public readonly MainWindow Window;
+        private const bool Debugging = false;
 
         public InGameEngine(MainWindow window)
         {
@@ -48,7 +49,16 @@ namespace Tanks.Backend
             }
         }
 
-        public void Paint(Graphics p) => Field.View.Paint(p, Field.Position.Add(Field.Size.Div(2)));
+        public void Paint(Graphics p)
+        {
+            Field.View.Paint(p, Field.Position.Add(Field.Size.Div(2)));
+            if (!Debugging) return;
+            foreach (var o in Field.Objects)
+            {
+                p.DrawRectangle(Pens.Red, o.Position.X, o.Position.Y, o.Size.X, o.Size.Y);
+                p.FillEllipse(new SolidBrush(Color.Red), o.CenterPosition.X, o.CenterPosition.Y, 5, 5);
+            }
+        }
 
         public void OnTick()
         {
@@ -64,7 +74,9 @@ namespace Tanks.Backend
             Animations = AnimationUpdating.UpdateAnimations(Animations, this);
             Field.Objects = new ObservableCollection<GameObject>(
                 Field.Objects.Where(
-                    o => !((o is Bullet || o is Explosion) && Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
+                    o =>
+                        !((o is Bullet || o is Explosion || o is Mine) &&
+                          Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
                 animation.Animate();
             Window.Refresh();
@@ -79,6 +91,7 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Animations = new ObservableCollection<Animation>();
+            Field.AddObject(AddableObjects.Mine, this, new Coordinate(700,700));
         }
 
         public void OnMouseMove(Coordinate position)
@@ -106,6 +119,10 @@ namespace Tanks.Backend
             Handler.KeyInPutHandler(this, e.KeyCode, KeyHandlerAction.Up);
             while (PressedKeys.Contains(e.KeyData))
                 PressedKeys.Remove(e.KeyData);
+            if (e.KeyData != Keys.Space) return;
+            Field.AddObject(AddableObjects.Mine, this, Player.CenterPosition);
+            var obj = Field.Objects.Last();
+            obj.Position = obj.Position.Sub(obj.Size.Div(2));
         }
     }
 }

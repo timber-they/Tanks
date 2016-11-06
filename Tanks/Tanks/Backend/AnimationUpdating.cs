@@ -28,9 +28,10 @@ namespace Tanks.Backend
                             fin.Add(animation);
                             break;
                         case Colliding.Collided:
-                            if (gameObject == null)
+                            if (!(gameObject is Bullet))
                                 break;
-                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, gameObject.CenterPosition);
+                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine,
+                                gameObject.CenterPosition);
                             engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f,
                                 gameObject.Size.QuadraticForm));
                             break;
@@ -45,13 +46,12 @@ namespace Tanks.Backend
                             fin.Add(new AngularMoveAnimation(gameObject, gameObject.Rotation, 10));
                             break;
                         case Colliding.PlayerVanishing:
-                            if (engine.Player.Lives < 2)
-                                engine.Window.Close();
-                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, engine.Player.CenterPosition);
-                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10,
-                                engine.Player.Size));
-                            engine.Player.Position = engine.Player.StartPosition;
-                            engine.Player.Lives -= 1;
+                            PlayerVanishing(engine);
+                            break;
+                        case Colliding.MineShooted:
+                            ((Mine) engine.Field.Objects
+                                .Where(o => o is Mine).First(m => engine.Field.Objects
+                                    .Any(b => b is Bullet && b.Cuts(m) != Direction.Nothing))).Timer = 0;
                             break;
                         case Colliding.Nothing:
                             throw new NotImplementedException("Colliding for this Object not yet implemented!");
@@ -59,11 +59,52 @@ namespace Tanks.Backend
                             throw new ArgumentOutOfRangeException();
                     }
                 }
-                else if (animation is ExplodeAnimation &&
-                         (gameObject != null && ((ExplodeAnimation) animation).MaxSize.CompareTo(gameObject.Size) == 1))
+                else if (animation is ExplodeAnimation && gameObject != null &&
+                         ((ExplodeAnimation)animation).MaxSize.CompareTo(gameObject.Size) == 1)
+                {
                     fin.Add(animation);
+                    if (!((Explosion)animation.AnimatedObject).Destroying) continue;
+                    for (var j = 0; j < engine.Field.Objects.Count; j++)
+                    {
+                        var obj = engine.Field.Objects[j];
+                        var block = obj as Block;
+                        var player = obj as Player;
+                        if (block != null && block.Destroyable &&
+                            animation.AnimatedObject.Cuts(block) != Direction.Nothing)
+                        {
+                            engine.Field.Objects.Remove(block);
+                            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, block.CenterPosition);
+                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 5, block.Size));
+                        }
+                        if (player != null && animation.AnimatedObject.Cuts(player) != Direction.Nothing)
+                            PlayerVanishing(engine);
+                    }
+                }
+                else if (animation is MineAnimation && gameObject != null)
+                {
+                    if ((gameObject as Mine)?.Timer > 0)
+                        fin.Add(animation);
+                    else
+                    {
+                        engine.Field.AddObject(AddableObjects.DestroyingExplosion, engine,
+                            animation.AnimatedObject.CenterPosition);
+                        fin.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10,
+                            ((Mine)animation.AnimatedObject).ExplosionSize));
+                    }
+                }
             }
             return fin;
+        }
+
+        private static void PlayerVanishing(InGameEngine engine)
+        {
+            if (engine.Player.Lives < 2)
+                engine.Window.Close();
+            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, engine.Player.CenterPosition);
+            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10,
+                engine.Player.Size));
+            engine.Player.Position = engine.Player.StartPosition;
+            engine.Player.Lives -= 1;
         }
 
         private static Colliding ObjectColliding(GameObject obj, InGameEngine engine, Animation animation)
@@ -95,6 +136,11 @@ namespace Tanks.Backend
                 .Select(engine.Player.Cuts)
                 .Any(cutting => cutting != Direction.Nothing))
                 return Colliding.PlayerVanishing;
+            if (engine.Field.Objects
+                .Where(o => o is Bullet)
+                .Any(b => engine.Field.Objects
+                .Any(o => o is Mine && o.Cuts(b) != Direction.Nothing)))
+                return Colliding.MineShooted;
             var normalBullet = bullet as NormalBullet;
             if (normalBullet == null)
                 return Colliding.Nothing;

@@ -1,4 +1,5 @@
-﻿using Painting.Types.Paint;
+﻿using System;
+using Painting.Types.Paint;
 using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
@@ -10,7 +11,17 @@ namespace Tanks.Objects.Animation
             MaxSize = maxSize;
         }
 
-        public override void Animate() => AnimatedObject?.ChangeSizeAtCentre(AnimatedObject.Size.Add(Speed));
+        public override void Animate()
+        {
+            Explosion obj;
+            if (AnimatedObject == null || (obj = AnimatedObject as Explosion) == null)
+                return;
+            AnimatedObject.ChangeSizeAtCentre(AnimatedObject.Size.Add(Speed));
+            if(obj.Destroying)
+            {
+                //Todo Destroying Explosions (from mines) have not been implemented yet - destroy the stuff!
+            }
+        }
 
         public Coordinate MaxSize { get; set; }
     }

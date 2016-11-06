@@ -14,8 +14,7 @@ namespace Tanks.Objects.GameObjects
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
-                    new Polygon(4, 2, new Colour(Color.FromArgb(-8355712)), new Coordinate(725, 354),
-                        new Coordinate(100, 100), mainColor, 0, 45)
+                    new Painting.Types.Paint.Rectangle(2, new Colour(Color.FromArgb(-8355712)), new Coordinate(725, 354), new Coordinate(100, 100), mainColor, 0)
                 }) {Position = new Coordinate(0, 0)}, id)
         {
             Destroyable = destroyable;

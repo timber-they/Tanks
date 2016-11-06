@@ -7,6 +7,7 @@
         ReboundedHorizontal,
         ReboundedVertical,
         PlayerVanishing,
-        Nothing
+        Nothing,
+        MineShooted
     }
 }

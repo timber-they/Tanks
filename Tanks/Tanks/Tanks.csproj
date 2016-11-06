@@ -66,6 +66,7 @@
     <Compile Include="Objects\Animation\AngularMoveAnimation.cs" />
     <Compile Include="Objects\Animation\Animation.cs" />
     <Compile Include="Objects\Animation\ExplodeAnimation.cs" />
+    <Compile Include="Objects\Animation\MineAnimation.cs" />
     <Compile Include="Objects\Animation\NormalMoveAnimation.cs" />
     <Compile Include="Objects\GameObjects\Block.cs" />
     <Compile Include="Objects\GameObjects\Bullet.cs" />

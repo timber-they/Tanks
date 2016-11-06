@@ -7,33 +7,33 @@ namespace Tanks.Frontend.UI
 {
     public partial class MainWindow : Form
     {
-        public InGameEngine InGameEngine;
+        private InGameEngine _inGameEngine;
 
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void MainWindow_Paint(object sender, PaintEventArgs e) => InGameEngine.Paint(e.Graphics);
+        private void MainWindow_Paint(object sender, PaintEventArgs e) => _inGameEngine.Paint(e.Graphics);
 
-        private void MainWindow_Tick(object sender, EventArgs e) => InGameEngine.OnTick();
+        private void MainWindow_Tick(object sender, EventArgs e) => _inGameEngine.OnTick();
 
         private void MainWindow_MouseClick(object sender, MouseEventArgs e)
-            => Handler.MouseInputHandler(e.Button, InGameEngine);
+            => Handler.MouseInputHandler(e.Button, _inGameEngine);
 
         private void MainWindow_MouseMove(object sender, MouseEventArgs e)
-            => InGameEngine.OnMouseMove(new Coordinate(e.X, e.Y));
+            => _inGameEngine.OnMouseMove(new Coordinate(e.X, e.Y));
 
         private void MainWindow_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
-            => InGameEngine.OnKeyDown(e);
+            => _inGameEngine.OnKeyDown(e);
 
-        private void MainWindow_KeyUp(object sender, KeyEventArgs e) => InGameEngine.OnKeyUp(e);
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e) => _inGameEngine.OnKeyUp(e);
 
         private void MainWindow_Load(object sender, EventArgs e)
         {
             MinimumSize = Size;
             MaximumSize = Size;
-            InGameEngine = new InGameEngine(this);
+            _inGameEngine = new InGameEngine(this);
         }
     }
 }

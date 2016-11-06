@@ -8,7 +8,8 @@
         DestroyableBlock,
         Hole,
         NotDestroyingExplosion,
-        DestroyingExplosion
+        DestroyingExplosion,
+        Mine
     }
 
     public static class AddableObjectsFunctionality
