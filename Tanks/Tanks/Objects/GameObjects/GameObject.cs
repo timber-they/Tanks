@@ -92,5 +92,7 @@ namespace Tanks.Objects.GameObjects
                 return new DirectionFloat(x ? Direction.Left : Direction.Up, pos1 + size1 - pos0);
             return new DirectionFloat(Direction.Nothing, -1);
         }
+
+        public Coordinate CenterPosition => Position.Add(Size.Div(2));
     }
 }

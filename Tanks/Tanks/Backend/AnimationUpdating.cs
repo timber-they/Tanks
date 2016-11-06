@@ -15,8 +15,10 @@ namespace Tanks.Backend
             InGameEngine engine)
         {
             var fin = new ObservableCollection<Animation>();
-            foreach (var animation in animations)
+            var enumerable = animations as IList<Animation> ?? animations.ToList();
+            for (var i = 0; i < enumerable.Count(); i++)
             {
+                var animation = enumerable[i];
                 var gameObject = engine.Field.Objects.FirstOrDefault(o => o.Id == animation.AnimatedObject.Id);
                 if (animation is AngularMoveAnimation || animation is NormalMoveAnimation)
                 {
@@ -27,6 +29,10 @@ namespace Tanks.Backend
                             fin.Add(animation);
                             break;
                         case Colliding.Collided:
+                            if (gameObject == null)
+                                break;
+                            engine.Field.AddObject(AddableObjects.Explosion, engine, gameObject.CenterPosition);
+                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f, gameObject.Size.QuadraticForm));
                             break;
                         case Colliding.ReboundedHorizontal:
                         case Colliding.ReboundedVertical:
@@ -41,6 +47,8 @@ namespace Tanks.Backend
                         case Colliding.PlayerVanishing:
                             if (engine.Player.Lives < 2)
                                 engine.Window.Close();
+                            engine.Field.AddObject(AddableObjects.Explosion, engine, engine.Player.CenterPosition);
+                            engine.Animations.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f, engine.Player.Size));
                             engine.Player.Position = engine.Player.StartPosition;
                             engine.Player.Lives -= 1;
                             break;

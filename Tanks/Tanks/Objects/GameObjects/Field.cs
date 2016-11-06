@@ -73,7 +73,7 @@ namespace Tanks.Objects.GameObjects
                 case AddableObjects.Explosion:
                     if(position == null)
                         throw new Exception("Position not specified!");
-                    Objects.Add(new Explosion(position, new Coordinate(1,1), engine.CurrentId, new Colour(Color.Black)));
+                    Objects.Add(new Explosion(position, new Coordinate(1,1), engine.CurrentId, new Colour(Color.Black), new Colour(Color.Red), 5));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(obj), obj, null);
