@@ -80,11 +80,6 @@ namespace Tanks.Backend
                           Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
                 animation.Animate();
-            Window.Refresh();
-        }
-
-        public void OnEvilTick()
-        {
             var col = Field.Objects.Where(o => o is NormalEvilPlayer).ToList();
             foreach (NormalEvilPlayer e in col)
                 e.DoSomething(this);

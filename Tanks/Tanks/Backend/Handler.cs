@@ -493,7 +493,10 @@ namespace Tanks.Backend
             switch (button)
             {
                 case MouseButtons.Left:
+                    if (DateTime.Now.Ticks - engine.Player.LastShootFired <= engine.Player.ShootTimeLag)
+                        break;
                     engine.Field.AddObject(AddableObjects.NormalBullet, engine);
+                    engine.Player.LastShootFired = DateTime.Now.Ticks;
                     break;
                 case MouseButtons.None:
                     break;

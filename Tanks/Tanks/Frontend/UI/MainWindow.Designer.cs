@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.WorldCounter = new System.Windows.Forms.Timer(this.components);
             this.LiveIndicator = new System.Windows.Forms.Label();
-            this.EvilTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // WorldCounter
@@ -50,12 +49,6 @@
             this.LiveIndicator.Name = "LiveIndicator";
             this.LiveIndicator.Size = new System.Drawing.Size(0, 32);
             this.LiveIndicator.TabIndex = 0;
-            // 
-            // EvilTimer
-            // 
-            this.EvilTimer.Enabled = true;
-            this.EvilTimer.Interval = 1000;
-            this.EvilTimer.Tick += new System.EventHandler(this.EvilTimer_Tick);
             // 
             // MainWindow
             // 
@@ -84,7 +77,6 @@
 
         private System.Windows.Forms.Timer WorldCounter;
         public System.Windows.Forms.Label LiveIndicator;
-        private System.Windows.Forms.Timer EvilTimer;
     }
 }
 

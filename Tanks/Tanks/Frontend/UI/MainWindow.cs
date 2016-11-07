@@ -35,7 +35,5 @@ namespace Tanks.Frontend.UI
             MaximumSize = Size;
             _inGameEngine = new InGameEngine(this);
         }
-
-        private void EvilTimer_Tick(object sender, EventArgs e) => _inGameEngine.OnEvilTick();
     }
 }

@@ -7,7 +7,7 @@ namespace Tanks.Objects.GameObjects
 {
     public class Player : GameObject
     {
-        protected Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour, decimal id, Coordinate startPosition)
+        protected Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour, decimal id, Coordinate startPosition, decimal shootTimeLag)
             : base(
                 position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
@@ -19,6 +19,7 @@ namespace Tanks.Objects.GameObjects
                         new Colour(Color.FromArgb(-16777216)), 0)
                 }) {Position = new Coordinate(0, 0)}, id)
         {
+            ShootTimeLag = shootTimeLag;
             StartPosition = startPosition;
             Lives = lives;
             View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb()*3));
@@ -29,5 +30,7 @@ namespace Tanks.Objects.GameObjects
 
         public int Lives { get; set; }
         public Coordinate StartPosition { get; set; }
+        public decimal LastShootFired { get; set; }
+        public decimal ShootTimeLag { get; set; }
     }
 }

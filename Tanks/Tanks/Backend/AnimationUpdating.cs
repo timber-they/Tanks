@@ -73,6 +73,7 @@ namespace Tanks.Backend
                         var obj = engine.Field.Objects[j];
                         var block = obj as Block;
                         var player = obj as Player;
+                        var mine = obj as Mine;
 
                         Del explode = ob =>
                         {
@@ -90,6 +91,8 @@ namespace Tanks.Backend
                             explode(player);
                             PlayerVanishing(engine, player);
                         }
+                        else if (mine != null && animation.AnimatedObject.Cuts(mine) != Direction.Nothing)
+                            mine.Timer = 0;
                     }
                 }
                 else if (animation is MineAnimation && gameObject != null)
