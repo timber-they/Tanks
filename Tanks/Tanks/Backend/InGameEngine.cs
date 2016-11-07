@@ -51,7 +51,7 @@ namespace Tanks.Backend
 
         public void Paint(Graphics p)
         {
-            Field.View.Paint(p, Field.Position.Add(Field.Size.Div(2)));
+            Field.Paint(p);
             if (!Debugging) return;
             foreach (var o in Field.Objects)
             {
@@ -90,8 +90,8 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.MainPlayer, this);
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
+            Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(700,700));
             Animations = new ObservableCollection<Animation>();
-            Field.AddObject(AddableObjects.Mine, this, new Coordinate(700,700));
         }
 
         public void OnMouseMove(Coordinate position)

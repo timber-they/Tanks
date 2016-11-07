@@ -86,5 +86,27 @@ namespace Tanks.Objects.GameObjects
             }
             Objects = Objects;
         }
+
+        public void Paint(Graphics p)
+        {
+            var trans = p.Transform.Clone();
+            var rotationCenterPointFromPosition = CenterPosition;
+            if (Rotation != 0)
+            {
+                p.TranslateTransform(rotationCenterPointFromPosition.X, rotationCenterPointFromPosition.Y);
+                p.RotateTransform(Rotation);
+                p.TranslateTransform(-rotationCenterPointFromPosition.X, -rotationCenterPointFromPosition.Y);
+            }
+            var bullets = Objects.Where(o => o is Bullet).ToList();
+            var players = Objects.Where(o => o is Player).ToList();
+            var others = Objects.Where(o => bullets.All(b => b.Id != o.Id) && players.All(l => l.Id != o.Id)).ToList();
+            foreach (var other in others)
+                other.View.Paint(p, other.CenterPosition);
+            foreach (var player in players)
+                player.View.Paint(p, player.CenterPosition);
+            foreach (var bullet in bullets)
+                bullet.View.Paint(p, bullet.CenterPosition);
+            p.Transform = trans;
+        }
     }
 }
