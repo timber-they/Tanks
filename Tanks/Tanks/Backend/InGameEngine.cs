@@ -91,6 +91,7 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(700,700));
+            Field.AddObject(AddableObjects.NormalEvilPlayer, this, new Coordinate(1200,400));
             Animations = new ObservableCollection<Animation>();
         }
 

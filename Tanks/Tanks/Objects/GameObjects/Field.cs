@@ -45,6 +45,9 @@ namespace Tanks.Objects.GameObjects
                     Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
+                case AddableObjects.NormalEvilPlayer:
+                    Objects.Add(new NormalEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position));
+                    break;
                 case AddableObjects.NormalBullet:
                     var player = GetMainPlayer;
                     if (player == null)
@@ -75,10 +78,10 @@ namespace Tanks.Objects.GameObjects
                     Objects.Add(new Explosion(position, new Coordinate(1, 1), engine.CurrentId, new Colour(Color.Black), new Colour(Color.Red), false, 5));
                     break;
                 case AddableObjects.DestroyingExplosion:
-                    Objects.Add(new Explosion(position, new Coordinate(1,1), engine.CurrentId, new Colour(Color.Black), new Colour(Color.OrangeRed), true, 5));
+                    Objects.Add(new Explosion(position, new Coordinate(1, 1), engine.CurrentId, new Colour(Color.Black), new Colour(Color.OrangeRed), true, 5));
                     break;
                 case AddableObjects.Mine:
-                    Objects.Add(new Mine(position, new Coordinate(30,30), engine.CurrentId, 5, new Colour(Color.FromArgb(-256)), new Colour(Color.FromArgb(150,255,50)), new Coordinate(150,150)));
+                    Objects.Add(new Mine(position, new Coordinate(30, 30), engine.CurrentId, 5, new Colour(Color.FromArgb(-256)), new Colour(Color.FromArgb(150, 255, 50)), new Coordinate(150, 150)));
                     engine.Animations.Add(new MineAnimation(Objects.Last(), 2));
                     break;
                 default:
