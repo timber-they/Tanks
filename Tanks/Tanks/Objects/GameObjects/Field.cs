@@ -35,21 +35,21 @@ namespace Tanks.Objects.GameObjects
 
         public MainPlayer GetMainPlayer => Objects.FirstOrDefault(o => o is MainPlayer) as MainPlayer;
 
-        public void AddObject(AddableObjects obj, InGameEngine engine, Coordinate position = null)
+        public void AddObject(AddableObjects obj, InGameEngine engine, Coordinate position = null, Player player = null)
         {
             if (AddableObjectsFunctionality.PositionRequired(obj) && position == null)
                 throw new Exception("Position not specified!");
             switch (obj)
             {
                 case AddableObjects.MainPlayer:
-                    Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
+                    Objects.Add(new MainPlayer(new Coordinate(100, 500), new Coordinate(100, 100), 0, 3,
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
                 case AddableObjects.NormalEvilPlayer:
                     Objects.Add(new NormalEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position));
                     break;
                 case AddableObjects.NormalBullet:
-                    var player = GetMainPlayer;
+                    player = player ?? GetMainPlayer;
                     if (player == null)
                         throw new Exception("No Player defined!");
                     var bullet =

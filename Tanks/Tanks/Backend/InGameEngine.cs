@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.CodeDom;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -82,6 +83,14 @@ namespace Tanks.Backend
             Window.Refresh();
         }
 
+        public void OnEvilTick()
+        {
+            var col = Field.Objects.Where(o => o is NormalEvilPlayer).ToList();
+            foreach (NormalEvilPlayer e in col)
+                e.DoSomething(this);
+            Window.Refresh();
+        }
+
         private void Init()
         {
             PressedKeys = new ObservableCollection<Keys>();
@@ -99,7 +108,7 @@ namespace Tanks.Backend
         {
             Task.Run(async () => await Task.Run(() =>
             {
-                Tracer.TraceMouse(position, Player);
+                Tracer.TracePosition(position, Player);
                 MethodInvoker invoker = delegate { Player = Player; };
                 if (Window.InvokeRequired)
                     Window.Invoke(invoker);

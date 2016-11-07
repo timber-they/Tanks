@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\AnimationUpdating.cs" />
+    <Compile Include="Backend\Arithmetic.cs" />
     <Compile Include="Backend\Handler.cs" />
     <Compile Include="Backend\InGameEngine.cs" />
     <Compile Include="Backend\Tracer.cs" />

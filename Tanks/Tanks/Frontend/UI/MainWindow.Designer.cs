@@ -29,15 +29,16 @@
         private void InitializeComponent ()
         {
             this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.WorldCounter = new System.Windows.Forms.Timer(this.components);
             this.LiveIndicator = new System.Windows.Forms.Label();
+            this.EvilTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // timer1
+            // WorldCounter
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 10;
-            this.timer1.Tick += new System.EventHandler(this.MainWindow_Tick);
+            this.WorldCounter.Enabled = true;
+            this.WorldCounter.Interval = 10;
+            this.WorldCounter.Tick += new System.EventHandler(this.MainWindow_Tick);
             // 
             // LiveIndicator
             // 
@@ -50,35 +51,40 @@
             this.LiveIndicator.Size = new System.Drawing.Size(0, 32);
             this.LiveIndicator.TabIndex = 0;
             // 
+            // EvilTimer
+            // 
+            this.EvilTimer.Enabled = true;
+            this.EvilTimer.Interval = 1000;
+            this.EvilTimer.Tick += new System.EventHandler(this.EvilTimer_Tick);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            ClientSize = new System.Drawing.Size(284, 261);
-            Controls.Add(this.LiveIndicator);
-            Cursor = System.Windows.Forms.Cursors.Cross;
-            DoubleBuffered = true;
-            FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            Name = "MainWindow";
-            Text = "Tanks";
-            //this.TopMost = true;
-            WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            Load += new System.EventHandler(this.MainWindow_Load);
-            Paint += new System.Windows.Forms.PaintEventHandler(this.MainWindow_Paint);
-            //this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyDown);
-            KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
-            MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseClick);
-            MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseMove);
-            PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainWindow_PreviewKeyDown);
-            ResumeLayout(false);
-            PerformLayout();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.LiveIndicator);
+            this.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "MainWindow";
+            this.Text = "Tanks";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.MainWindow_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainWindow_Paint);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.MainWindow_KeyUp);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseClick);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseMove);
+            this.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.MainWindow_PreviewKeyDown);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer WorldCounter;
         public System.Windows.Forms.Label LiveIndicator;
+        private System.Windows.Forms.Timer EvilTimer;
     }
 }
 
