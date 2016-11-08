@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Tanks.Backend;
 using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
@@ -11,7 +12,7 @@ namespace Tanks.Objects.Animation
 
         }
 
-        public override void Animate()
+        public override void Animate(InGameEngine engine)
         {
             Mine obj;
             if (AnimatedObject == null || (obj = AnimatedObject as Mine) == null)

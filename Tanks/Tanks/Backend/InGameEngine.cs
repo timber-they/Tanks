@@ -19,6 +19,7 @@ namespace Tanks.Backend
         public Field Field;
         public readonly MainWindow Window;
         private const bool Debugging = false;
+        public Coordinate MousePosition;
 
         public InGameEngine(MainWindow window)
         {
@@ -70,8 +71,14 @@ namespace Tanks.Backend
                 Handler.KeyInPutHandler(this, key, KeyHandlerAction.Down);
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
+            var col = Field.Objects.Where(o => o is NormalEvilPlayer).ToList();
+            foreach (NormalEvilPlayer e in col)
+                e.DoSomething(this);
             if (Animations.Count <= 0)
+            {
+                Window.Refresh();
                 return;
+            }
             Animations = AnimationUpdating.UpdateAnimations(Animations, this);
             Field.Objects = new ObservableCollection<GameObject>(
                 Field.Objects.Where(
@@ -79,10 +86,7 @@ namespace Tanks.Backend
                         !((o is Bullet || o is Explosion || o is Mine) &&
                           Animations.All(animation => animation.AnimatedObject.Id != o.Id))));
             foreach (var animation in Animations)
-                animation.Animate();
-            var col = Field.Objects.Where(o => o is NormalEvilPlayer).ToList();
-            foreach (NormalEvilPlayer e in col)
-                e.DoSomething(this);
+                animation.Animate(this);
             Window.Refresh();
         }
 
@@ -103,6 +107,7 @@ namespace Tanks.Backend
         {
             Task.Run(async () => await Task.Run(() =>
             {
+                MousePosition = position;
                 Tracer.TracePosition(position, Player);
                 MethodInvoker invoker = delegate { Player = Player; };
                 if (Window.InvokeRequired)

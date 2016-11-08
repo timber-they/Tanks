@@ -1,4 +1,6 @@
-﻿using Painting.Types.Paint;
+﻿using System.Diagnostics;
+using Painting.Types.Paint;
+using Tanks.Backend;
 using Tanks.Enums;
 using Tanks.Objects.GameObjects;
 
@@ -14,7 +16,7 @@ namespace Tanks.Objects.Animation
 
         public Direction Direction { get; set; }
 
-        public override void Animate()
+        public override void Animate(InGameEngine engine)
         {
             if (AnimatedObject == null)
                 return;
@@ -33,6 +35,7 @@ namespace Tanks.Objects.Animation
                     AnimatedObject.Position = AnimatedObject.Position.Add(new Coordinate(0, -Speed));
                     break;
             }
+            Tracer.TracePosition(engine.MousePosition, AnimatedObject);
         }
     }
 }

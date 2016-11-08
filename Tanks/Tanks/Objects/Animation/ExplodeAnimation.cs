@@ -1,5 +1,6 @@
 ﻿using System;
 using Painting.Types.Paint;
+using Tanks.Backend;
 using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
@@ -11,7 +12,7 @@ namespace Tanks.Objects.Animation
             MaxSize = maxSize;
         }
 
-        public override void Animate()
+        public override void Animate(InGameEngine engine)
         {
             Explosion obj;
             if (AnimatedObject == null || (obj = AnimatedObject as Explosion) == null)

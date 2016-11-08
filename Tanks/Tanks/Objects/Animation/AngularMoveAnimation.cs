@@ -1,6 +1,7 @@
 ﻿using System;
 using Painting.Types.Paint;
 using Painting.Util;
+using Tanks.Backend;
 using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
@@ -15,7 +16,7 @@ namespace Tanks.Objects.Animation
 
         private float Direction { get; set; }
 
-        public override void Animate()
+        public override void Animate(InGameEngine engine)
         {
             if (AnimatedObject == null)
                 return;

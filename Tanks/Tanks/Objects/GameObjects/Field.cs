@@ -42,7 +42,7 @@ namespace Tanks.Objects.GameObjects
             switch (obj)
             {
                 case AddableObjects.MainPlayer:
-                    Objects.Add(new MainPlayer(new Coordinate(100, 500), new Coordinate(100, 100), 0, 3,
+                    Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
                 case AddableObjects.NormalEvilPlayer:

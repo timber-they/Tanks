@@ -1,4 +1,5 @@
-﻿using Tanks.Objects.GameObjects;
+﻿using Tanks.Backend;
+using Tanks.Objects.GameObjects;
 
 namespace Tanks.Objects.Animation
 {
@@ -13,7 +14,7 @@ namespace Tanks.Objects.Animation
         public GameObject AnimatedObject { get; set; }
         protected float Speed { get; set; }
 
-        public virtual void Animate()
+        public virtual void Animate(InGameEngine engine)
         {
         }
     }
