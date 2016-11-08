@@ -14,9 +14,9 @@ namespace Tanks.Objects.GameObjects
     {
         private ObservableCollection<GameObject> _objects;
 
-        public Field(Coordinate position, Coordinate size, ObservableCollection<GameObject> objects, decimal id)
+        public Field(Coordinate position, Coordinate unturnedSiz, ObservableCollection<GameObject> objects, decimal id)
             : base(
-                position, size, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
+                position, unturnedSiz, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
             )
         {
             Objects = objects;
@@ -45,8 +45,8 @@ namespace Tanks.Objects.GameObjects
                     Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
-                case AddableObjects.NormalEvilPlayer:
-                    Objects.Add(new NormalEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position));
+                case AddableObjects.StupidEvilPlayer:
+                    Objects.Add(new StupidEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position));
                     break;
                 case AddableObjects.NormalBullet:
                     player = player ?? GetMainPlayer;
@@ -55,12 +55,12 @@ namespace Tanks.Objects.GameObjects
                     var bullet =
                         new NormalBullet(
                             player.Position.Sub(new Coordinate(0, 10))
-                                .Add(player.Size.Div(2))
+                                .Add(player.UnturnedSize.Div(2))
                                 .Add(
                                     new Coordinate(
-                                        (float)Math.Cos(Physomatik.ToRadian(player.Rotation)) * (player.Size.Pyth / 2 + 20),
-                                        (float)Math.Sin(Physomatik.ToRadian(player.Rotation)) * (player.Size.Pyth / 2 + 20))),
-                            new Coordinate(10, 30), player.Rotation,
+                                        (float)Math.Cos(Physomatik.ToRadian(player.Rotation)) * (player.UnturnedSize.Pyth() / 2 + 20),
+                                        (float)Math.Sin(Physomatik.ToRadian(player.Rotation)) * (player.UnturnedSize.Pyth() / 2 + 20))),
+                            PublicStuff.NormalBulletSize, player.Rotation,
                             engine.CurrentId, 1);
                     Objects.Add(bullet);
                     engine.Animations.Add(new AngularMoveAnimation(bullet, bullet.Rotation, 10));
@@ -93,7 +93,7 @@ namespace Tanks.Objects.GameObjects
         public void Paint(Graphics p)
         {
             var trans = p.Transform.Clone();
-            var rotationCenterPointFromPosition = CenterPosition;
+            var rotationCenterPointFromPosition = CenterPosition();
             if (Rotation != 0)
             {
                 p.TranslateTransform(rotationCenterPointFromPosition.X, rotationCenterPointFromPosition.Y);
@@ -104,11 +104,11 @@ namespace Tanks.Objects.GameObjects
             var players = Objects.Where(o => o is Player).ToList();
             var others = Objects.Where(o => bullets.All(b => b.Id != o.Id) && players.All(l => l.Id != o.Id)).ToList();
             foreach (var other in others)
-                other.View.Paint(p, other.CenterPosition);
+                other.View.Paint(p, other.CenterPosition());
             foreach (var player in players)
-                player.View.Paint(p, player.CenterPosition);
+                player.View.Paint(p, player.CenterPosition());
             foreach (var bullet in bullets)
-                bullet.View.Paint(p, bullet.CenterPosition);
+                bullet.View.Paint(p, bullet.CenterPosition());
             p.Transform = trans;
         }
     }

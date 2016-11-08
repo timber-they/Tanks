@@ -7,19 +7,19 @@ using Tanks.Enums;
 
 namespace Tanks.Objects.GameObjects
 {
-    public class NormalEvilPlayer : Player
+    public class StupidEvilPlayer : Player
     {
-        public NormalEvilPlayer(Coordinate position, Coordinate size, float rotation, decimal id,
-            Coordinate startPosition, int lives = 1) : base(rotation, lives, position, size, new Colour(Color.Red), id, startPosition, (decimal)1E7)
+        public StupidEvilPlayer(Coordinate position, Coordinate unturnedSiz, float rotation, decimal id,
+            Coordinate startPosition, int lives = 1) : base(rotation, lives, position, unturnedSiz, new Colour(Color.Red), id, startPosition, (decimal)1E7)
         {
         }
 
         public void DoSomething(InGameEngine engine)
         {
-            Tracer.TracePosition(engine.Player.Position, this);
+            Tracer.TracePosition(engine.Player.CenterPosition(), this);
             if (engine.Field.Objects
                     .Where(o => o is Block)
-                    .Any(block => Arithmetic.Cuts(CenterPosition, block.Position, block.Size, Rotation)))
+                    .Any(block => Arithmetic.Cuts(CenterPosition(), block.Position, block.UnturnedSize, Rotation, PublicStuff.NormalBulletSize)))
                 return;
             if (DateTime.Now.Ticks - LastShootFired <= ShootTimeLag)
                 return;

@@ -7,8 +7,8 @@ namespace Tanks.Backend
     {
         public static void TracePosition(Coordinate position, GameObject obj)
         {
-            var dif = obj.Position.Add(obj.Size.Div(2)).Sub(position);
-            var angle = dif.Atan + (dif.X >= 0 ? 180 : 0);
+            var dif = obj.Position.Add(obj.UnturnedSize.Div(2)).Sub(position);
+            var angle = dif.Atan() + (dif.X >= 0 ? 180 : 0);
             obj.Rotation = angle;
         }
     }

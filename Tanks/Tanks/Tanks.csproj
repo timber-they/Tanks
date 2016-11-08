@@ -33,8 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Painting">
-      <HintPath>..\..\..\Painting_new\Painting\bin\Debug\Painting.dll</HintPath>
+    <Reference Include="Painting, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Documents\Visual Studio 2015\Projects\Painting\Painting\bin\Debug\Painting.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -76,12 +77,13 @@
     <Compile Include="Objects\GameObjects\MainPlayer.cs" />
     <Compile Include="Objects\GameObjects\Mine.cs" />
     <Compile Include="Objects\GameObjects\NormalBullet.cs" />
-    <Compile Include="Objects\GameObjects\NormalEvilPlayer.cs" />
+    <Compile Include="Objects\GameObjects\StupidEvilPlayer.cs" />
     <Compile Include="Objects\GameObjects\Player.cs" />
     <Compile Include="Objects\GameObjects\Hole.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\GameObjects\GameObject.cs" />
+    <Compile Include="PublicStuff.cs" />
     <Compile Include="Types\DirectionFloat.cs" />
     <EmbeddedResource Include="Frontend\UI\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>

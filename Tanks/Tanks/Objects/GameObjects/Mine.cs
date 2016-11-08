@@ -6,9 +6,9 @@ namespace Tanks.Objects.GameObjects
 {
     public class Mine : GameObject //TODO
     {
-        public Mine(Coordinate position, Coordinate size, decimal id, float time, Colour normalColour, Colour specialColour, Coordinate explosionSize, float rotation = 0)
+        public Mine(Coordinate position, Coordinate unturnedSiz, decimal id, float time, Colour normalColour, Colour specialColour, Coordinate explosionSize, float rotation = 0)
             : base(
-                position, size, rotation,
+                position, unturnedSiz, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Ellipse(1, new Colour(Color.Empty), new Coordinate(706, 242), new Coordinate(68, 68),

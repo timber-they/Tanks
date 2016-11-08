@@ -7,9 +7,9 @@ namespace Tanks.Objects.GameObjects
 {
     public class Player : GameObject
     {
-        protected Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour, decimal id, Coordinate startPosition, decimal shootTimeLag)
+        protected Player(float rotation, int lives, Coordinate position, Coordinate unturnedSiz, Colour colour, decimal id, Coordinate startPosition, decimal shootTimeLag)
             : base(
-                position, size, rotation,
+                position, unturnedSiz, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Line(new Coordinate(57, 57), new Coordinate(149, 57), new Colour(Color.FromArgb(-16711936)), 7),

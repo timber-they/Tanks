@@ -126,7 +126,7 @@ namespace Tanks.Backend
                 case Keys.A:
                     if (action == KeyHandlerAction.Down) //Isn't this a beautiful mess? Something like that happens with too much laziness ;)
                     {
-                        if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.Size.X > 10) ||
+                        if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.UnturnedSize.X > 10) ||
                             engine.Animations.Any(
                                 animation =>
                                     (animation.AnimatedObject.Id == engine.Player.Id) &&
@@ -160,8 +160,8 @@ namespace Tanks.Backend
                 case Keys.D:
                     if (action == KeyHandlerAction.Down)
                     {
-                        if (!(engine.Player.Position.X < engine.Field.Size.X) ||
-                            !(engine.Player.Position.X + engine.Player.Size.X < engine.Field.Size.X) ||
+                        if (!(engine.Player.Position.X < engine.Field.UnturnedSize.X) ||
+                            !(engine.Player.Position.X + engine.Player.UnturnedSize.X < engine.Field.UnturnedSize.X) ||
                             engine.Animations.Any(
                                 animation =>
                                     (animation.AnimatedObject.Id == engine.Player.Id) &&
@@ -219,8 +219,8 @@ namespace Tanks.Backend
                 case Keys.S:
                     if (action == KeyHandlerAction.Down)
                     {
-                        if (!(engine.Player.Position.Y < engine.Field.Size.Y) ||
-                            !(engine.Player.Position.Y + engine.Player.Size.Y < engine.Field.Size.Y) ||
+                        if (!(engine.Player.Position.Y < engine.Field.UnturnedSize.Y) ||
+                            !(engine.Player.Position.Y + engine.Player.UnturnedSize.Y < engine.Field.UnturnedSize.Y) ||
                             engine.Animations.Any(
                                 animation =>
                                     (animation.AnimatedObject.Id == engine.Player.Id) &&
@@ -256,7 +256,7 @@ namespace Tanks.Backend
                 case Keys.W:
                     if (action == KeyHandlerAction.Down)
                     {
-                        if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.Size.Y > 10) ||
+                        if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.UnturnedSize.Y > 10) ||
                             engine.Animations.Any(
                                 animation =>
                                     (animation.AnimatedObject.Id == engine.Player.Id) &&
@@ -334,6 +334,8 @@ namespace Tanks.Backend
                 case Keys.F2:
                     break;
                 case Keys.F3:
+                    if(action == KeyHandlerAction.Up)
+                        engine.Debugging = !engine.Debugging;
                     break;
                 case Keys.F4:
                     break;

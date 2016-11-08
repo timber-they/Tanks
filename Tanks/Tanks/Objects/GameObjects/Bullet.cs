@@ -6,10 +6,10 @@ namespace Tanks.Objects.GameObjects
 {
     public class Bullet : GameObject
     {
-        protected Bullet(Coordinate position, Coordinate size, Colour colour, float rotation, decimal id,
+        protected Bullet(Coordinate position, Coordinate unturnedSiz, Colour colour, float rotation, decimal id,
             int availableCollisionCount)
             : base(
-                position, size, rotation,
+                position, unturnedSiz, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                 {
                     new Ellipse(0, new Colour(Color.Empty), new Coordinate(644, 380), new Coordinate(50, 120),

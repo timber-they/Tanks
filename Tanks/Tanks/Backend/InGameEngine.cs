@@ -18,7 +18,7 @@ namespace Tanks.Backend
 
         public Field Field;
         public readonly MainWindow Window;
-        private const bool Debugging = false;
+        public bool Debugging = false;
         public Coordinate MousePosition;
 
         public InGameEngine(MainWindow window)
@@ -57,8 +57,8 @@ namespace Tanks.Backend
             if (!Debugging) return;
             foreach (var o in Field.Objects)
             {
-                p.DrawRectangle(Pens.Red, o.Position.X, o.Position.Y, o.Size.X, o.Size.Y);
-                p.FillEllipse(new SolidBrush(Color.Red), o.CenterPosition.X, o.CenterPosition.Y, 5, 5);
+                p.DrawRectangle(Pens.Red, o.Position.X, o.Position.Y, o.UnturnedSize.X, o.UnturnedSize.Y);
+                p.FillEllipse(new SolidBrush(Color.Red), o.CenterPosition().X, o.CenterPosition().Y, 5, 5);
             }
         }
 
@@ -71,8 +71,8 @@ namespace Tanks.Backend
                 Handler.KeyInPutHandler(this, key, KeyHandlerAction.Down);
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
-            var col = Field.Objects.Where(o => o is NormalEvilPlayer).ToList();
-            foreach (NormalEvilPlayer e in col)
+            var col = Field.Objects.Where(o => o is StupidEvilPlayer).ToList();
+            foreach (StupidEvilPlayer e in col)
                 e.DoSomething(this);
             if (Animations.Count <= 0)
             {
@@ -99,7 +99,7 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(700,700));
-            Field.AddObject(AddableObjects.NormalEvilPlayer, this, new Coordinate(1200,400));
+            Field.AddObject(AddableObjects.StupidEvilPlayer, this, new Coordinate(1200,400));
             Animations = new ObservableCollection<Animation>();
         }
 
@@ -130,9 +130,9 @@ namespace Tanks.Backend
             while (PressedKeys.Contains(e.KeyData))
                 PressedKeys.Remove(e.KeyData);
             if (e.KeyData != Keys.Space) return;
-            Field.AddObject(AddableObjects.Mine, this, Player.CenterPosition);
+            Field.AddObject(AddableObjects.Mine, this, Player.CenterPosition());
             var obj = Field.Objects.Last();
-            obj.Position = obj.Position.Sub(obj.Size.Div(2));
+            obj.Position = obj.Position.Sub(obj.UnturnedSize.Div(2));
         }
     }
 }
