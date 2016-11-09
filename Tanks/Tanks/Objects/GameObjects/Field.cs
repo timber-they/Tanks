@@ -14,9 +14,9 @@ namespace Tanks.Objects.GameObjects
     {
         private ObservableCollection<GameObject> _objects;
 
-        public Field(Coordinate position, Coordinate unturnedSiz, ObservableCollection<GameObject> objects, decimal id)
+        public Field(Coordinate position, Coordinate unturnedSize, ObservableCollection<GameObject> objects, decimal id)
             : base(
-                position, unturnedSiz, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
+                position, unturnedSize, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
             )
         {
             Objects = objects;
@@ -35,7 +35,7 @@ namespace Tanks.Objects.GameObjects
 
         public MainPlayer GetMainPlayer => Objects.FirstOrDefault(o => o is MainPlayer) as MainPlayer;
 
-        public void AddObject(AddableObjects obj, InGameEngine engine, Coordinate position = null, Player player = null)
+        public void AddObject(AddableObjects obj, InGameEngine engine, Coordinate position = null, int evilPlayerLevel = 0, Player player = null)
         {
             if (AddableObjectsFunctionality.PositionRequired(obj) && position == null)
                 throw new Exception("Position not specified!");
@@ -45,8 +45,13 @@ namespace Tanks.Objects.GameObjects
                     Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
-                case AddableObjects.StupidEvilPlayer:
-                    Objects.Add(new StupidEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position, engine.Debugging ? 100 : 1));
+                case AddableObjects.EvilPlayer:
+                    switch (evilPlayerLevel)
+                    {
+                        case 0:
+                            Objects.Add(new EvilPlayer0(position, new Coordinate(100, 100), 0, engine.CurrentId, position, engine, engine.Debugging ? 100 : 1));
+                            break;
+                    }
                     break;
                 case AddableObjects.NormalBullet:
                     player = player ?? GetMainPlayer;

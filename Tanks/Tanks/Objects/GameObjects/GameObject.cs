@@ -13,13 +13,13 @@ namespace Tanks.Objects.GameObjects
         private Coordinate _unturnedSize;
         private ShapeCollection _view;
 
-        protected GameObject(Coordinate position, Coordinate unturnedSiz, float rotation, ShapeCollection view, decimal id)
+        protected GameObject(Coordinate position, Coordinate unturnedSize, float rotation, ShapeCollection view, decimal id)
         {
             Id = id;
             if (!(this is Field))
                 View = view;
             Position = position;
-            UnturnedSize = unturnedSiz;
+            UnturnedSize = unturnedSize;
             Rotation = rotation;
             if (this is Field)
                 View = view;

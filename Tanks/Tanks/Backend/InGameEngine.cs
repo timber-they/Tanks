@@ -70,9 +70,9 @@ namespace Tanks.Backend
                 Handler.KeyInPutHandler(this, key, KeyHandlerAction.Down);
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
-            var col = Field.Objects.Where(o => o is StupidEvilPlayer).ToList();
+            var col = Field.Objects.Where(o => o is EvilPlayer).ToList();
             foreach (var e in col)
-                ((StupidEvilPlayer)e).DoSomething(this);
+                ((EvilPlayer)e).DoSomething();
             if (Animations.Count <= 0)
             {
                 Window.Refresh();
@@ -98,7 +98,7 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(700,700));
-            Field.AddObject(AddableObjects.StupidEvilPlayer, this, new Coordinate(1200,400));
+            Field.AddObject(AddableObjects.EvilPlayer, this, new Coordinate(1200,400), 0);
             Animations = new ObservableCollection<Animation>();
         }
 

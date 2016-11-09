@@ -124,33 +124,14 @@ namespace Tanks.Backend
                 case Keys.D9:
                     break;
                 case Keys.A:
-                    if (action == KeyHandlerAction.Down) //Isn't this a beautiful mess? Something like that happens with too much laziness ;)
+                    switch (action)
                     {
-                        if (!(engine.Player.Position.X > 10) || !(engine.Player.Position.X + engine.Player.UnturnedSize.X > 10) ||
-                            engine.Animations.Any(
-                                animation =>
-                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                    (((NormalMoveAnimation) animation).Direction == Direction.Left)))
+                        case KeyHandlerAction.Down:
+                            engine.Player.Move(engine, Direction.Left);
                             break;
-                        if (engine.Animations.Any(
-                            animation =>
-                                (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                (((NormalMoveAnimation) animation).Direction == Direction.Right)))
-                            engine.Animations =
-                                new ObservableCollection<Animation>(engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Right))).ToList());
-                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Left, 3));
-                    }
-                    else if (action == KeyHandlerAction.Up)
-                    {
-                        engine.Animations = new ObservableCollection<Animation>(
-                            engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Left)))
-                                .ToList());
+                        case KeyHandlerAction.Up:
+                            engine.Player.StopMoving(engine, Direction.Left);
+                            break;
                     }
                     break;
                 case Keys.B:
@@ -158,34 +139,14 @@ namespace Tanks.Backend
                 case Keys.C:
                     break;
                 case Keys.D:
-                    if (action == KeyHandlerAction.Down)
+                    switch (action)
                     {
-                        if (!(engine.Player.Position.X < engine.Field.UnturnedSize.X) ||
-                            !(engine.Player.Position.X + engine.Player.UnturnedSize.X < engine.Field.UnturnedSize.X) ||
-                            engine.Animations.Any(
-                                animation =>
-                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                    (((NormalMoveAnimation) animation).Direction == Direction.Right)))
+                        case KeyHandlerAction.Down:
+                            engine.Player.Move(engine, Direction.Right);
                             break;
-                        if (engine.Animations.Any(
-                            animation =>
-                                (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                (((NormalMoveAnimation) animation).Direction == Direction.Left)))
-                            engine.Animations =
-                                new ObservableCollection<Animation>(engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Left))).ToList());
-                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Right, 3));
-                    }
-                    else if (action == KeyHandlerAction.Up)
-                    {
-                        engine.Animations = new ObservableCollection<Animation>(
-                            engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Right)))
-                                .ToList());
+                        case KeyHandlerAction.Up:
+                            engine.Player.StopMoving(engine, Direction.Right);
+                            break;
                     }
                     break;
                 case Keys.E:
@@ -217,34 +178,14 @@ namespace Tanks.Backend
                 case Keys.R:
                     break;
                 case Keys.S:
-                    if (action == KeyHandlerAction.Down)
+                    switch (action)
                     {
-                        if (!(engine.Player.Position.Y < engine.Field.UnturnedSize.Y) ||
-                            !(engine.Player.Position.Y + engine.Player.UnturnedSize.Y < engine.Field.UnturnedSize.Y) ||
-                            engine.Animations.Any(
-                                animation =>
-                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                    (((NormalMoveAnimation) animation).Direction == Direction.Down)))
+                        case KeyHandlerAction.Down:
+                            engine.Player.Move(engine, Direction.Down);
                             break;
-                        if (engine.Animations.Any(
-                            animation =>
-                                (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                (((NormalMoveAnimation) animation).Direction == Direction.Up)))
-                            engine.Animations =
-                                new ObservableCollection<Animation>(engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Up))).ToList());
-                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Down, 3));
-                    }
-                    else if (action == KeyHandlerAction.Up)
-                    {
-                        engine.Animations = new ObservableCollection<Animation>(
-                            engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Down)))
-                                .ToList());
+                        case KeyHandlerAction.Up:
+                            engine.Player.StopMoving(engine, Direction.Down);
+                            break;
                     }
                     break;
                 case Keys.T:
@@ -254,33 +195,14 @@ namespace Tanks.Backend
                 case Keys.V:
                     break;
                 case Keys.W:
-                    if (action == KeyHandlerAction.Down)
+                    switch (action)
                     {
-                        if (!(engine.Player.Position.Y > 10) || !(engine.Player.Position.Y + engine.Player.UnturnedSize.Y > 10) ||
-                            engine.Animations.Any(
-                                animation =>
-                                    (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                    (((NormalMoveAnimation) animation).Direction == Direction.Up)))
+                        case KeyHandlerAction.Down:
+                            engine.Player.Move(engine, Direction.Up);
                             break;
-                        if (engine.Animations.Any(
-                            animation =>
-                                (animation.AnimatedObject.Id == engine.Player.Id) &&
-                                (((NormalMoveAnimation) animation).Direction == Direction.Down)))
-                            engine.Animations =
-                                new ObservableCollection<Animation>(engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Down))).ToList());
-                        engine.Animations.Add(new NormalMoveAnimation(engine.Player, Direction.Up, 3));
-                    }
-                    else if (action == KeyHandlerAction.Up)
-                    {
-                        engine.Animations = new ObservableCollection<Animation>(
-                            engine.Animations.Where(
-                                    animation =>
-                                        !((animation.AnimatedObject.Id == engine.Player.Id) &&
-                                          (((NormalMoveAnimation) animation).Direction == Direction.Up)))
-                                .ToList());
+                        case KeyHandlerAction.Up:
+                            engine.Player.StopMoving(engine, Direction.Up);
+                            break;
                     }
                     break;
                 case Keys.X:
@@ -334,7 +256,7 @@ namespace Tanks.Backend
                 case Keys.F2:
                     break;
                 case Keys.F3:
-                    if(action == KeyHandlerAction.Up)
+                    if (action == KeyHandlerAction.Up)
                         engine.Debugging = !engine.Debugging;
                     break;
                 case Keys.F4:
@@ -495,10 +417,7 @@ namespace Tanks.Backend
             switch (button)
             {
                 case MouseButtons.Left:
-                    if (DateTime.Now.Ticks - engine.Player.LastShootFired <= engine.Player.ShootTimeLag)
-                        break;
-                    engine.Field.AddObject(AddableObjects.NormalBullet, engine);
-                    engine.Player.LastShootFired = DateTime.Now.Ticks;
+                    engine.Player.Shoot(engine);
                     break;
                 case MouseButtons.None:
                     break;

@@ -3,7 +3,7 @@
     public enum AddableObjects
     {
         MainPlayer,
-        StupidEvilPlayer,
+        EvilPlayer,
         NormalBullet,
         NormalBlock,
         DestroyableBlock,
