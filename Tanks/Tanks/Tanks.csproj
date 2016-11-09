@@ -72,14 +72,14 @@
     <Compile Include="Objects\GameObjects\Block.cs" />
     <Compile Include="Objects\GameObjects\Bullet.cs" />
     <Compile Include="Enums\Direction.cs" />
-    <Compile Include="Objects\GameObjects\EvilPlayer0.cs" />
-    <Compile Include="Objects\GameObjects\EvilPlayer1.cs" />
+    <Compile Include="Objects\GameObjects\Evil\EvilPlayer0.cs" />
+    <Compile Include="Objects\GameObjects\Evil\EvilPlayer1.cs" />
     <Compile Include="Objects\GameObjects\Explosion.cs" />
     <Compile Include="Objects\GameObjects\Field.cs" />
     <Compile Include="Objects\GameObjects\MainPlayer.cs" />
     <Compile Include="Objects\GameObjects\Mine.cs" />
     <Compile Include="Objects\GameObjects\NormalBullet.cs" />
-    <Compile Include="Objects\GameObjects\EvilPlayer.cs" />
+    <Compile Include="Objects\GameObjects\Evil\EvilPlayer.cs" />
     <Compile Include="Objects\GameObjects\Player.cs" />
     <Compile Include="Objects\GameObjects\Hole.cs" />
     <Compile Include="Program.cs" />

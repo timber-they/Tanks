@@ -119,16 +119,7 @@ namespace Tanks.Backend
 
         private static Animation PlayerVanishing(InGameEngine engine, Player player)
         {
-            if (player.Lives < 2)
-            {
-                if (player is MainPlayer)
-                    engine.Window.Close();
-                else
-                    engine.Field.Objects.Remove(player);
-            }
-            engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, player.CenterPosition());
-            player.Position = player.StartPosition;
-            player.Lives -= 1;
+            player.Die();
             return (new ExplodeAnimation(engine.Field.Objects.Last(), 10,
                 player.UnturnedSize));
         }
@@ -190,19 +181,16 @@ namespace Tanks.Backend
                 .Any(cutting => cutting != Direction.Nothing))
                 return Colliding.PlayerVanishing;
 
-            var mainPlayer = player as MainPlayer;
-            if (mainPlayer != null)
-                return (BiggerThanFieldX(mainPlayer, engine.Field) &&
-                        (direction == Direction.Right)) ||
-                       (BiggerThanFieldY(mainPlayer, engine.Field) &&
-                        (direction == Direction.Down)) ||
-                       ((mainPlayer.Position.X < 0) &&
-                        (direction == Direction.Left)) ||
-                       ((mainPlayer.Position.Y < 0) &&
-                        (direction == Direction.Up))
-                    ? Colliding.Collided
-                    : Colliding.NoCollide;
-            return Colliding.Nothing;
+            return (BiggerThanFieldX(player, engine.Field) &&
+                    (direction == Direction.Right)) ||
+                   (BiggerThanFieldY(player, engine.Field) &&
+                    (direction == Direction.Down)) ||
+                   ((player.Position.X < 0) &&
+                    (direction == Direction.Left)) ||
+                   ((player.Position.Y < 0) &&
+                    (direction == Direction.Up))
+                ? Colliding.Collided
+                : Colliding.NoCollide;
         }
 
         private static bool BiggerThanFieldX(GameObject obj, GameObject field)

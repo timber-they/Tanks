@@ -34,7 +34,8 @@ namespace Tanks.Objects.Animation
                     AnimatedObject.Position = AnimatedObject.Position.Add(new Coordinate(0, -Speed));
                     break;
             }
-            Tracer.TracePosition(engine.MousePosition, AnimatedObject);
+            if(AnimatedObject is MainPlayer)
+                Tracer.TracePosition(engine.MousePosition, AnimatedObject);
         }
     }
 }

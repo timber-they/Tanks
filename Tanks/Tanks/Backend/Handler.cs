@@ -127,10 +127,10 @@ namespace Tanks.Backend
                     switch (action)
                     {
                         case KeyHandlerAction.Down:
-                            engine.Player.Move(engine, Direction.Left);
+                            engine.MainPlayer.Move(Direction.Left);
                             break;
                         case KeyHandlerAction.Up:
-                            engine.Player.StopMoving(engine, Direction.Left);
+                            engine.MainPlayer.StopMoving(Direction.Left);
                             break;
                     }
                     break;
@@ -142,10 +142,10 @@ namespace Tanks.Backend
                     switch (action)
                     {
                         case KeyHandlerAction.Down:
-                            engine.Player.Move(engine, Direction.Right);
+                            engine.MainPlayer.Move(Direction.Right);
                             break;
                         case KeyHandlerAction.Up:
-                            engine.Player.StopMoving(engine, Direction.Right);
+                            engine.MainPlayer.StopMoving(Direction.Right);
                             break;
                     }
                     break;
@@ -181,10 +181,10 @@ namespace Tanks.Backend
                     switch (action)
                     {
                         case KeyHandlerAction.Down:
-                            engine.Player.Move(engine, Direction.Down);
+                            engine.MainPlayer.Move(Direction.Down);
                             break;
                         case KeyHandlerAction.Up:
-                            engine.Player.StopMoving(engine, Direction.Down);
+                            engine.MainPlayer.StopMoving(Direction.Down);
                             break;
                     }
                     break;
@@ -198,10 +198,10 @@ namespace Tanks.Backend
                     switch (action)
                     {
                         case KeyHandlerAction.Down:
-                            engine.Player.Move(engine, Direction.Up);
+                            engine.MainPlayer.Move(Direction.Up);
                             break;
                         case KeyHandlerAction.Up:
-                            engine.Player.StopMoving(engine, Direction.Up);
+                            engine.MainPlayer.StopMoving(Direction.Up);
                             break;
                     }
                     break;
@@ -417,7 +417,7 @@ namespace Tanks.Backend
             switch (button)
             {
                 case MouseButtons.Left:
-                    engine.Player.Shoot(engine);
+                    engine.MainPlayer.Shoot();
                     break;
                 case MouseButtons.None:
                     break;

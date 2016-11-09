@@ -7,6 +7,7 @@ using Painting.Util;
 using Tanks.Backend;
 using Tanks.Enums;
 using Tanks.Objects.Animation;
+using Tanks.Objects.GameObjects.Evil;
 
 namespace Tanks.Objects.GameObjects
 {
@@ -42,14 +43,16 @@ namespace Tanks.Objects.GameObjects
             switch (obj)
             {
                 case AddableObjects.MainPlayer:
-                    Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3,
-                        engine.CurrentId, new Coordinate(100, 100)));
+                    Objects.Add(new MainPlayer(new Coordinate(100, 100), new Coordinate(100, 100), 0, 3, new Coordinate(100, 100), engine));
                     break;
                 case AddableObjects.EvilPlayer:
                     switch (evilPlayerLevel)
                     {
                         case 0:
-                            Objects.Add(new EvilPlayer0(position, new Coordinate(100, 100), 0, engine.CurrentId, position, engine, engine.Debugging ? 100 : 1));
+                            Objects.Add(new EvilPlayer0(position, new Coordinate(100, 100), 0, position, engine, engine.Debugging ? 100 : 1));
+                            break;
+                        case 1:
+                            Objects.Add(new EvilPlayer1(position, new Coordinate(100, 100), 0, position, engine, engine.Debugging ? 100 : 1));
                             break;
                     }
                     break;

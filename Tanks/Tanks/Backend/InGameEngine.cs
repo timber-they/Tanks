@@ -8,6 +8,7 @@ using Tanks.Enums;
 using Tanks.Frontend.UI;
 using Tanks.Objects.Animation;
 using Tanks.Objects.GameObjects;
+using Tanks.Objects.GameObjects.Evil;
 
 namespace Tanks.Backend
 {
@@ -38,7 +39,7 @@ namespace Tanks.Backend
             }
         }
 
-        public MainPlayer Player
+        public MainPlayer MainPlayer
         {
             get { return Field.GetMainPlayer; }
             private set
@@ -68,8 +69,8 @@ namespace Tanks.Backend
                     Animations.Where(animation => !(animation.AnimatedObject is MainPlayer)));
             foreach (var key in PressedKeys)
                 Handler.KeyInPutHandler(this, key, KeyHandlerAction.Down);
-            if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
-                Window.LiveIndicator.Text = new string('♥', Player.Lives);
+            if (!MainPlayer.Lives.Equals(Window.LiveIndicator.Text.Length))
+                Window.LiveIndicator.Text = new string('♥', MainPlayer.Lives);
             var col = Field.Objects.Where(o => o is EvilPlayer).ToList();
             foreach (var e in col)
                 ((EvilPlayer)e).DoSomething();
@@ -98,7 +99,7 @@ namespace Tanks.Backend
             Field.AddObject(AddableObjects.DestroyableBlock, this, new Coordinate(500, 500));
             Field.AddObject(AddableObjects.Hole, this, new Coordinate(1000, 500));
             Field.AddObject(AddableObjects.NormalBlock, this, new Coordinate(700,700));
-            Field.AddObject(AddableObjects.EvilPlayer, this, new Coordinate(1200,400), 0);
+            Field.AddObject(AddableObjects.EvilPlayer, this, new Coordinate(1200,400), 1);
             Animations = new ObservableCollection<Animation>();
         }
 
@@ -107,8 +108,8 @@ namespace Tanks.Backend
             Task.Run(async () => await Task.Run(() =>
             {
                 MousePosition = position;
-                Tracer.TracePosition(position, Player);
-                MethodInvoker invoker = delegate { Player = Player; };
+                Tracer.TracePosition(position, MainPlayer);
+                MethodInvoker invoker = delegate { MainPlayer = MainPlayer; };
                 if (Window.InvokeRequired)
                     Window.Invoke(invoker);
                 else
@@ -129,7 +130,7 @@ namespace Tanks.Backend
             while (PressedKeys.Contains(e.KeyData))
                 PressedKeys.Remove(e.KeyData);
             if (e.KeyData != Keys.Space) return;
-            Field.AddObject(AddableObjects.Mine, this, Player.CenterPosition());
+            Field.AddObject(AddableObjects.Mine, this, MainPlayer.CenterPosition());
             var obj = Field.Objects.Last();
             obj.Position = obj.Position.Sub(obj.UnturnedSize.Div(2));
         }
