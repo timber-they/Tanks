@@ -4,7 +4,7 @@ using Painting.Types.Paint;
 
 namespace Tanks.Objects.GameObjects
 {
-    public class Mine : GameObject //TODO
+    public class Mine : GameObject
     {
         public Mine(Coordinate position, Coordinate unturnedSiz, decimal id, float time, Colour normalColour, Colour specialColour, Coordinate explosionSize, float rotation = 0)
             : base(
@@ -25,8 +25,8 @@ namespace Tanks.Objects.GameObjects
         }
 
         public float Timer { get; set; }
-        public Colour NormalColour { get; set; }
-        public Colour SpecialColour { get; set; }
-        public Coordinate ExplosionSize { get; set; }
+        public Colour NormalColour { get; }
+        public Colour SpecialColour { get; }
+        public Coordinate ExplosionSize { get; }
     }
 }

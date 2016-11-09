@@ -29,8 +29,8 @@ namespace Tanks.Objects.GameObjects
         }
 
         public int Lives { get; set; }
-        public Coordinate StartPosition { get; set; }
+        public Coordinate StartPosition { get; private set; }
         public decimal LastShootFired { get; set; }
-        public decimal ShootTimeLag { get; set; }
+        public decimal ShootTimeLag { get; private set; }
     }
 }

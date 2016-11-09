@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
@@ -72,8 +71,8 @@ namespace Tanks.Backend
             if (!Player.Lives.Equals(Window.LiveIndicator.Text.Length))
                 Window.LiveIndicator.Text = new string('♥', Player.Lives);
             var col = Field.Objects.Where(o => o is StupidEvilPlayer).ToList();
-            foreach (StupidEvilPlayer e in col)
-                e.DoSomething(this);
+            foreach (var e in col)
+                ((StupidEvilPlayer)e).DoSomething(this);
             if (Animations.Count <= 0)
             {
                 Window.Refresh();

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Painting.Types.Paint;
+﻿using Painting.Types.Paint;
 using Tanks.Backend;
 using Tanks.Enums;
 using Tanks.Objects.GameObjects;
@@ -14,7 +13,7 @@ namespace Tanks.Objects.Animation
             Direction = direction;
         }
 
-        public Direction Direction { get; set; }
+        public Direction Direction { get; }
 
         public override void Animate(InGameEngine engine)
         {

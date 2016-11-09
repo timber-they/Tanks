@@ -19,7 +19,7 @@ namespace Tanks.Objects.GameObjects
             Tracer.TracePosition(engine.Player.CenterPosition(), this);
             if (engine.Field.Objects
                     .Where(o => o is Block)
-                    .Any(block => Arithmetic.Cuts(CenterPosition(), block.Position, block.UnturnedSize, Rotation, PublicStuff.NormalBulletSize)))
+                    .Any(block => Arithmetic.Cuts(CenterPosition(), block.Position, block.UnturnedSize, Rotation, PublicStuff.NormalBulletSize, 5)))
                 return;
             if (DateTime.Now.Ticks - LastShootFired <= ShootTimeLag)
                 return;

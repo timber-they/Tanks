@@ -7,7 +7,7 @@ namespace Tanks.Objects.GameObjects
     public class Block : GameObject
     {
         // ReSharper disable once NotAccessedField.Global
-        public bool Destroyable;
+        public bool Destroyable { get; }
 
         public Block(Coordinate position, Coordinate unturnedSiz, decimal id, bool destroyable, Colour mainColor, float rotation = 0)
             : base(

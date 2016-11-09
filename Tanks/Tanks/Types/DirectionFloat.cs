@@ -10,7 +10,7 @@ namespace Tanks.Types
             Float = f;
         }
 
-        public Direction Direction { get; set; }
-        public float Float { get; set; }
+        public Direction Direction { get; }
+        public float Float { get; }
     }
 }

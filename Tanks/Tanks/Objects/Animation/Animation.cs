@@ -11,8 +11,8 @@ namespace Tanks.Objects.Animation
             Speed = speed;
         }
 
-        public GameObject AnimatedObject { get; set; }
-        protected float Speed { get; set; }
+        public GameObject AnimatedObject { get; }
+        protected float Speed { get; }
 
         public virtual void Animate(InGameEngine engine)
         {

@@ -46,7 +46,7 @@ namespace Tanks.Objects.GameObjects
                         engine.CurrentId, new Coordinate(100, 100)));
                     break;
                 case AddableObjects.StupidEvilPlayer:
-                    Objects.Add(new StupidEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position));
+                    Objects.Add(new StupidEvilPlayer(position, new Coordinate(100,100), 0, engine.CurrentId, position, engine.Debugging ? 100 : 1));
                     break;
                 case AddableObjects.NormalBullet:
                     player = player ?? GetMainPlayer;
@@ -94,6 +94,7 @@ namespace Tanks.Objects.GameObjects
         {
             var trans = p.Transform.Clone();
             var rotationCenterPointFromPosition = CenterPosition();
+            // ReSharper disable once CompareOfFloatsByEqualityOperator
             if (Rotation != 0)
             {
                 p.TranslateTransform(rotationCenterPointFromPosition.X, rotationCenterPointFromPosition.Y);

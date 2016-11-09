@@ -14,6 +14,6 @@ namespace Tanks.Objects.GameObjects
             Destroying = destroying;
         }
 
-        public bool Destroying { get; set; }
+        public bool Destroying { get; }
     }
 }

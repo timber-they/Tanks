@@ -14,7 +14,7 @@ namespace Tanks.Objects.Animation
             Direction = direction;
         }
 
-        private float Direction { get; set; }
+        private float Direction { get; }
 
         public override void Animate(InGameEngine engine)
         {

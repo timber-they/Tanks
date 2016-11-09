@@ -50,7 +50,7 @@ namespace Tanks.Objects.GameObjects
         public Coordinate UnturnedSize
         {
             get { return _unturnedSize; }
-            set
+            private set
             {
                 _unturnedSize = value;
                 if ((View != null) && ((View.UnturnedSize == null) || !View.UnturnedSize.Equals(value)))

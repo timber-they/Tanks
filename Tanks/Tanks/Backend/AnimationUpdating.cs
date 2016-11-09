@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Windows.Forms;
 using Tanks.Enums;
 using Tanks.Objects.Animation;
 using Tanks.Objects.GameObjects;
@@ -19,10 +17,10 @@ namespace Tanks.Backend
         {
             var fin = new ObservableCollection<Animation>();
             var enumerable = animations as IList<Animation> ?? animations.ToList();
-            for (var i = 0; i < enumerable.Count; i++)
+            foreach (var animation in enumerable)
             {
-                var animation = enumerable[i];
-                var gameObject = engine.Field.Objects.FirstOrDefault(o => o.Id == animation.AnimatedObject.Id);
+                var animation1 = animation;
+                var gameObject = engine.Field.Objects.FirstOrDefault(o => o.Id == animation1.AnimatedObject.Id);
                 if (animation is AngularMoveAnimation || animation is NormalMoveAnimation)
                 {
                     var colliding = ObjectColliding(animation.AnimatedObject, engine, animation);
@@ -109,12 +107,12 @@ namespace Tanks.Backend
                 }
             }
             var players = engine.Field.Objects.Where(f => f is Player).ToList();
-            foreach (Player player in players)
+            foreach (var player in players)
             {
                 if (engine.Field.Objects.Where(o => o is Bullet)
                     .Select(player.Cuts)
                     .Any(cutting => cutting != Direction.Nothing))
-                    fin.Add(PlayerVanishing(engine, player));
+                    fin.Add(PlayerVanishing(engine, (Player)player));
             }
             return fin;
         }
@@ -129,7 +127,7 @@ namespace Tanks.Backend
                     engine.Field.Objects.Remove(player);
             }
             engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, player.CenterPosition());
-            player.Position = engine.Player.StartPosition;
+            player.Position = player.StartPosition;
             player.Lives -= 1;
             return (new ExplodeAnimation(engine.Field.Objects.Last(), 10,
                 player.UnturnedSize));
@@ -160,12 +158,9 @@ namespace Tanks.Backend
                         : Colliding.ReboundedVertical)
                     : Colliding.Collided;
             }
-            if(engine.Field.Objects.Where(o => o is Player).Select(p => p.Cuts(bullet)).Any(cutting => cutting != Direction.Nothing))
+            if(engine.Field.Objects.Where(o => o is Player || o is Bullet).Select(p => p.Cuts(bullet)).Any(cutting => cutting != Direction.Nothing))
                 return Colliding.Collided;
-            if (engine.Field.Objects
-                .Where(o => o is Bullet)
-                .Any(b => engine.Field.Objects
-                .Any(o => o is Mine && o.Cuts(b) != Direction.Nothing)))
+            if(engine.Field.Objects.Any(o => o is Mine && o.Cuts(bullet) != Direction.Nothing))
                 return Colliding.MineShooted;
             var normalBullet = bullet as NormalBullet;
             if (normalBullet == null)

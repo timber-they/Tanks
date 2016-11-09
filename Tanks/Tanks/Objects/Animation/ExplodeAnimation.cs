@@ -1,5 +1,4 @@
-﻿using System;
-using Painting.Types.Paint;
+﻿using Painting.Types.Paint;
 using Tanks.Backend;
 using Tanks.Objects.GameObjects;
 
@@ -24,6 +23,6 @@ namespace Tanks.Objects.Animation
             }
         }
 
-        public Coordinate MaxSize { get; set; }
+        public Coordinate MaxSize { get; }
     }
 }
