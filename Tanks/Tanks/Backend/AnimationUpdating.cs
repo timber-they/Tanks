@@ -35,7 +35,7 @@ namespace Tanks.Backend
                             engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine,
                                 gameObject.CenterPosition());
                             fin.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 10f,
-                                gameObject.UnturnedSize.QuadraticForm()));
+                                gameObject.Size.QuadraticForm()));
                             break;
                         case Colliding.ReboundedHorizontal:
                         case Colliding.ReboundedVertical:
@@ -62,7 +62,7 @@ namespace Tanks.Backend
                     }
                 }
                 else if (animation is ExplodeAnimation && gameObject != null &&
-                         ((ExplodeAnimation)animation).MaxSize.CompareTo(gameObject.UnturnedSize) == 1)
+                         ((ExplodeAnimation)animation).MaxSize.CompareTo(gameObject.Size) == 1)
                 {
                     fin.Add(animation);
                     if (!((Explosion)animation.AnimatedObject).Destroying) continue;
@@ -76,7 +76,7 @@ namespace Tanks.Backend
                         Del explode = ob =>
                         {
                             engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, engine, ob.CenterPosition());
-                            fin.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 5, ob.UnturnedSize));
+                            fin.Add(new ExplodeAnimation(engine.Field.Objects.Last(), 5, ob.Size));
                         };
                         if (block != null && block.Destroyable &&
                             animation.AnimatedObject.Cuts(block) != Direction.Nothing)
@@ -121,7 +121,7 @@ namespace Tanks.Backend
         {
             player.Die();
             return (new ExplodeAnimation(engine.Field.Objects.Last(), 10,
-                player.UnturnedSize));
+                player.Size));
         }
 
         private static Colliding ObjectColliding(GameObject obj, InGameEngine engine, Animation animation)
@@ -194,9 +194,9 @@ namespace Tanks.Backend
         }
 
         private static bool BiggerThanFieldX(GameObject obj, GameObject field)
-            => (obj.Position.X > field.UnturnedSize.X) || (obj.Position.X + obj.UnturnedSize.X > field.UnturnedSize.X);
+            => (obj.Position.X > field.Size.X) || (obj.Position.X + obj.Size.X > field.Size.X);
 
         private static bool BiggerThanFieldY(GameObject obj, GameObject field)
-            => (obj.Position.Y > field.UnturnedSize.Y) || (obj.Position.Y + obj.UnturnedSize.Y > field.UnturnedSize.Y);
+            => (obj.Position.Y > field.Size.Y) || (obj.Position.Y + obj.Size.Y > field.Size.Y);
     }
 }

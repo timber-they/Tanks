@@ -8,16 +8,16 @@ namespace Tanks.Objects.GameObjects.Evil
 {
     public class EvilPlayer1 : EvilPlayer
     {
-        public EvilPlayer1(Coordinate position, Coordinate unturnedSize, float rotation,
-            Coordinate startPosition, InGameEngine engine, int lives) : base(position, unturnedSize, rotation, startPosition, 1, engine, lives)
+        public EvilPlayer1(Coordinate position, Coordinate size, float rotation,
+            Coordinate startPosition, InGameEngine engine, int lives) : base(position, size, rotation, startPosition, 1, engine, lives)
         {
             _t = DateTime.Now.Ticks;
         }
 
         public override void DoSomething() //TODO
         {
-            Trace();
-            IntelliShoot();
+            Trace(Engine.MainPlayer.CenterPosition());
+            IntelliShoot(Engine.MainPlayer.CenterPosition());
             if (Moves.Count <= 0)
                 Move(Direction.Down);
             if (DateTime.Now.Ticks - _t <= (decimal)1E7) return;

@@ -16,7 +16,7 @@ namespace Tanks.Objects.Animation
             Explosion obj;
             if (AnimatedObject == null || (obj = AnimatedObject as Explosion) == null)
                 return;
-            AnimatedObject.ChangeSizeAtCentre(AnimatedObject.UnturnedSize.Add(Speed));
+            AnimatedObject.ChangeSizeAtCentre(AnimatedObject.Size.Add(Speed));
             if(obj.Destroying)
             {
                 //Todo Destroying Explosions (from mines) have not been implemented yet - destroy the stuff!

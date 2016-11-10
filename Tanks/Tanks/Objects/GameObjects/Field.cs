@@ -15,9 +15,9 @@ namespace Tanks.Objects.GameObjects
     {
         private ObservableCollection<GameObject> _objects;
 
-        public Field(Coordinate position, Coordinate unturnedSize, ObservableCollection<GameObject> objects, decimal id)
+        public Field(Coordinate position, Coordinate size, ObservableCollection<GameObject> objects, decimal id)
             : base(
-                position, unturnedSize, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
+                position, size, 0, new ShapeCollection(new ObservableCollection<Shape>(objects.Select(o => o.View))), id
             )
         {
             Objects = objects;
@@ -63,13 +63,13 @@ namespace Tanks.Objects.GameObjects
                     var bullet =
                         new NormalBullet(
                             player.Position.Sub(new Coordinate(0, 10))
-                                .Add(player.UnturnedSize.Div(2))
+                                .Add(player.Size.Div(2))
                                 .Add(
                                     new Coordinate(
-                                        (float)Math.Cos(Physomatik.ToRadian(player.Rotation)) * (player.UnturnedSize.Pyth() / 2 + 20),
-                                        (float)Math.Sin(Physomatik.ToRadian(player.Rotation)) * (player.UnturnedSize.Pyth() / 2 + 20))),
+                                        (float)Math.Cos(Physomatik.ToRadian(player.Rotation)) * (player.Size.Pyth() / 2 + 20),
+                                        (float)Math.Sin(Physomatik.ToRadian(player.Rotation)) * (player.Size.Pyth() / 2 + 20))),
                             PublicStuff.NormalBulletSize, player.Rotation,
-                            engine.CurrentId, 1);
+                            engine.CurrentId);
                     Objects.Add(bullet);
                     engine.Animations.Add(new AngularMoveAnimation(bullet, bullet.Rotation, 10));
                     break;

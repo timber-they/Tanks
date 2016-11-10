@@ -10,16 +10,16 @@ namespace Tanks.Objects.GameObjects
         public readonly decimal Id;
         private Coordinate _position;
         private float _rotation;
-        private Coordinate _unturnedSize;
+        private Coordinate _size;
         private ShapeCollection _view;
 
-        protected GameObject(Coordinate position, Coordinate unturnedSize, float rotation, ShapeCollection view, decimal id)
+        protected GameObject(Coordinate position, Coordinate size, float rotation, ShapeCollection view, decimal id)
         {
             Id = id;
             if (!(this is Field))
                 View = view;
             Position = position;
-            UnturnedSize = unturnedSize;
+            Size = size;
             Rotation = rotation;
             if (this is Field)
                 View = view;
@@ -47,12 +47,12 @@ namespace Tanks.Objects.GameObjects
             }
         }
 
-        public Coordinate UnturnedSize
+        public Coordinate Size
         {
-            get { return _unturnedSize; }
+            get { return _size; }
             private set
             {
-                _unturnedSize = value;
+                _size = value;
                 if ((View != null) && ((View.UnturnedSize == null) || !View.UnturnedSize.Equals(value)))
                     View.UnturnedSize = value;
             }
@@ -71,14 +71,14 @@ namespace Tanks.Objects.GameObjects
 
         public void ChangeSizeAtCentre(Coordinate newSize)
         {
-            Position = Position.Sub(newSize.Sub(UnturnedSize).Div(2));
-            UnturnedSize = newSize;
+            Position = Position.Sub(newSize.Sub(Size).Div(2));
+            Size = newSize;
         }
 
         public Direction Cuts(GameObject other)
         {
-            var cuttingX = Cuts(Position.X, UnturnedSize.X, other.Position.X, other.UnturnedSize.X, true);
-            var cuttingY = Cuts(Position.Y, UnturnedSize.Y, other.Position.Y, other.UnturnedSize.Y, false);
+            var cuttingX = Cuts(Position.X, Size.X, other.Position.X, other.Size.X, true);
+            var cuttingY = Cuts(Position.Y, Size.Y, other.Position.Y, other.Size.Y, false);
             return (cuttingX.Direction == Direction.Nothing) || (cuttingY.Direction == Direction.Nothing)
                 ? Direction.Nothing
                 : (cuttingX.Float < cuttingY.Float ? cuttingX.Direction : cuttingY.Direction);
@@ -93,6 +93,15 @@ namespace Tanks.Objects.GameObjects
             return new DirectionFloat(Direction.Nothing, -1);
         }
 
-        public Coordinate CenterPosition() => Position.Add(UnturnedSize.Div(2));
+        public Coordinate CenterPosition() => Position.Add(Size.Div(2));
+
+        public Direction DirectionToThis(GameObject other) =>
+            other.Position.X > Position.X + Size.X
+                ? Direction.Right
+                : (other.Position.X + other.Size.X < Position.X
+                    ? Direction.Left
+                    : (other.Position.Y > Position.Y + Size.Y
+                        ? Direction.Down
+                        : (other.Position.Y + other.Size.Y < Position.Y ? Direction.Up : Direction.Nothing)));
     }
 }

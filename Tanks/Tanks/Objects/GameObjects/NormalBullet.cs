@@ -5,9 +5,8 @@ namespace Tanks.Objects.GameObjects
 {
     public class NormalBullet : Bullet
     {
-        public NormalBullet(Coordinate position, Coordinate unturnedSize, float rotation, decimal id,
-            int availableCollisionsCount)
-            : base(position, unturnedSize, new Colour(Color.Red), rotation, id, availableCollisionsCount)
+        public NormalBullet(Coordinate position, Coordinate size, float rotation, decimal id)
+            : base(position, size, new Colour(Color.Red), rotation, id, 1)
         {
         }
     }

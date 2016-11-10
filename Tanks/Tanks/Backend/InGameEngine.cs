@@ -18,7 +18,7 @@ namespace Tanks.Backend
 
         public Field Field;
         public readonly MainWindow Window;
-        public bool Debugging = false;
+        public bool Debugging = true;
         public Coordinate MousePosition;
 
         public InGameEngine(MainWindow window)
@@ -57,7 +57,7 @@ namespace Tanks.Backend
             if (!Debugging) return;
             foreach (var o in Field.Objects)
             {
-                p.DrawRectangle(Pens.Red, o.Position.X, o.Position.Y, o.UnturnedSize.X, o.UnturnedSize.Y);
+                p.DrawRectangle(Pens.Red, o.Position.X, o.Position.Y, o.Size.X, o.Size.Y);
                 p.FillEllipse(new SolidBrush(Color.Red), o.CenterPosition().X, o.CenterPosition().Y, 5, 5);
             }
         }
@@ -132,7 +132,7 @@ namespace Tanks.Backend
             if (e.KeyData != Keys.Space) return;
             Field.AddObject(AddableObjects.Mine, this, MainPlayer.CenterPosition());
             var obj = Field.Objects.Last();
-            obj.Position = obj.Position.Sub(obj.UnturnedSize.Div(2));
+            obj.Position = obj.Position.Sub(obj.Size.Div(2));
         }
     }
 }

@@ -13,9 +13,9 @@ namespace Tanks.Objects.GameObjects
 {
     public class Player : GameObject
     {
-        protected Player(float rotation, int lives, Coordinate position, Coordinate unturnedSize, Colour colour, Coordinate startPosition, decimal shootTimeLag, InGameEngine engine)
+        protected Player(float rotation, int lives, Coordinate position, Coordinate size, Colour colour, Coordinate startPosition, decimal shootTimeLag, InGameEngine engine, Type bulletType)
             : base(
-                position, unturnedSize, rotation,
+                position, size, rotation,
                 new ShapeCollection(new ObservableCollection<Shape>
                     {
                         new Line(new Coordinate(57, 57), new Coordinate(149, 57), new Colour(Color.FromArgb(-16711936)),
@@ -28,6 +28,7 @@ namespace Tanks.Objects.GameObjects
                     })
                     {Position = new Coordinate(0, 0)}, engine.CurrentId)
         {
+            BulletType = bulletType;
             ShootTimeLag = shootTimeLag;
             StartPosition = startPosition;
             Lives = lives;
@@ -44,6 +45,7 @@ namespace Tanks.Objects.GameObjects
         private decimal LastShootFired { get; set; }
         private decimal ShootTimeLag { get; }
         protected InGameEngine Engine { get; }
+        public Type BulletType { get; }
 
         public void Move(Direction direction)
         {
@@ -68,17 +70,17 @@ namespace Tanks.Objects.GameObjects
             switch (direction)
             {
                 case Direction.Right:
-                    return Position.X < Engine.Field.UnturnedSize.X &&
-                           Position.X + UnturnedSize.X < Engine.Field.UnturnedSize.X;
+                    return Position.X < Engine.Field.Size.X &&
+                           Position.X + Size.X < Engine.Field.Size.X;
                 case Direction.Down:
-                    return Position.Y < Engine.Field.UnturnedSize.Y &&
-                           Position.Y + UnturnedSize.Y < Engine.Field.UnturnedSize.Y;
+                    return Position.Y < Engine.Field.Size.Y &&
+                           Position.Y + Size.Y < Engine.Field.Size.Y;
                 case Direction.Left:
                     return Position.X > 0 &&
-                           Position.X + UnturnedSize.X > 0;
+                           Position.X + Size.X > 0;
                 case Direction.Up:
                     return Position.Y > 0 &&
-                           Position.Y + UnturnedSize.Y > 0;
+                           Position.Y + Size.Y > 0;
                 case Direction.Nothing:
                     return false;
                 default:
@@ -103,7 +105,7 @@ namespace Tanks.Objects.GameObjects
         {
             if (DateTime.Now.Ticks - LastShootFired <= ShootTimeLag)
                 return;
-            Engine.Field.AddObject(AddableObjects.NormalBullet, Engine, null, 0, this);
+            Engine.Field.AddObject(BulletType == typeof(NormalBullet) ? AddableObjects.NormalBullet : AddableObjects.Nothing, Engine, null, 0, this);
             LastShootFired = DateTime.Now.Ticks;
         }
 
@@ -124,6 +126,29 @@ namespace Tanks.Objects.GameObjects
             Engine.Field.AddObject(AddableObjects.NotDestroyingExplosion, Engine, CenterPosition());
             GoToStartPosition();
             Lives -= 1;
+        }
+
+        public Coordinate GetReboundingPositionToShoot(GameObject obj, Direction direction) //TODO
+        {
+            float x, y;
+            switch (direction)
+            {
+                case Direction.Right:
+                    x = Engine.Field.Size.X;
+                    //y = 
+                    break;
+                case Direction.Down:
+                    break;
+                case Direction.Left:
+                    break;
+                case Direction.Up:
+                    break;
+                case Direction.Nothing:
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
+            }
+            return null;
         }
     }
 }
