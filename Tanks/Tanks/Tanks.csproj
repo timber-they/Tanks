@@ -69,6 +69,7 @@
     <Compile Include="Objects\Animation\ExplodeAnimation.cs" />
     <Compile Include="Objects\Animation\MineAnimation.cs" />
     <Compile Include="Objects\Animation\NormalMoveAnimation.cs" />
+    <Compile Include="Objects\Animation\RotationAnimation.cs" />
     <Compile Include="Objects\GameObjects\Block.cs" />
     <Compile Include="Objects\GameObjects\Bullet.cs" />
     <Compile Include="Enums\Direction.cs" />

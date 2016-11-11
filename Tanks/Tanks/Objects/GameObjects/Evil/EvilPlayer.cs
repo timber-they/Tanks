@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Forms.VisualStyles;
 using Painting.Types.Paint;
 using Tanks.Backend;
 using Tanks.Enums;
+using Tanks.Objects.Animation;
 
 namespace Tanks.Objects.GameObjects.Evil
 {
@@ -12,7 +15,9 @@ namespace Tanks.Objects.GameObjects.Evil
     {
         public EvilPlayer(Coordinate position, Coordinate size, float rotation,
             Coordinate startPosition, int intelligenceLevel, InGameEngine engine, int lives = 1)
-            : base(rotation, lives, position, size, new Colour(Color.Red), startPosition, (decimal)1E7, engine, typeof(NormalBullet))
+            : base(
+                rotation, lives, position, size, new Colour(Color.Red), startPosition, (decimal)1E7, engine,
+                typeof(NormalBullet))
         {
             IntelligenceLevel = intelligenceLevel;
         }
@@ -21,7 +26,7 @@ namespace Tanks.Objects.GameObjects.Evil
         {
         }
 
-        protected void IntelliTrace(Coordinate aim) //TODO In jede Himmelsrichtung verfolgen (Abprallpunkt bestimmen, Schauen, ob auf dem Hinweg/Rückweg ein Zusammenstoß passiert, bevor es den Gegner trifft(area)
+        protected void IntelliTrace(Coordinate aim)
         {
             if (!IntelliCutsAnything(new Area(aim, Position), 1))
                 return;
@@ -38,8 +43,9 @@ namespace Tanks.Objects.GameObjects.Evil
             } while (IntelliCutsAnything(new Area(aim, Position), 1));
         }
 
-        protected void Trace(Coordinate aim) => Tracer.TracePosition(aim, this);
-        protected void IntelliShoot(Coordinate aim, int intelliState = 0)
+        private void Trace(Coordinate aim) => Rotation = Tracer.TracePosition(aim, this);
+
+        private void IntelliShoot(Coordinate aim, int intelliState = 0)
         {
             if (IntelliCutsAnything(new Area(aim, Position), intelliState))
                 return;
@@ -53,16 +59,12 @@ namespace Tanks.Objects.GameObjects.Evil
         /// <param name="intelliState"></param>
         /// <returns></returns>
         private bool IntelliCutsAnything(Area area, int intelliState = 0)
-        {
-            foreach (var o in Engine.Field.Objects)
-            {
-                if ((o is Block || intelliState > 0 && o is EvilPlayer) &&
+            =>
+            Engine.Field.Objects.Any(
+                o =>
+                    (o is Block || intelliState > 0 && o is EvilPlayer) &&
                     (area.IsCoordinateInArea(o.Position) || area.IsCoordinateInArea(o.Position.Add(o.Size))) &&
-                    Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, Rotation, PublicStuff.NormalBulletSize, 5))
-                    return true;
-            }
-            return false;
-        }
+                    Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, Rotation, PublicStuff.NormalBulletSize, 5));
 
         protected void IntelliTraceShoot(Coordinate aim, int intelliState = 0)
         {

@@ -105,6 +105,13 @@ namespace Tanks.Backend
                             ((Mine)animation.AnimatedObject).ExplosionSize));
                     }
                 }
+                else if (animation is RotationAnimation && gameObject != null)
+                {
+                    if (Math.Abs(((RotationAnimation)animation).Aim - gameObject.Rotation) > animation.Speed)
+                        fin.Add(animation);
+                    else
+                        gameObject.Rotation = ((RotationAnimation) animation).Aim;
+                }
             }
             var players = engine.Field.Objects.Where(f => f is Player).ToList();
             foreach (var player in players)

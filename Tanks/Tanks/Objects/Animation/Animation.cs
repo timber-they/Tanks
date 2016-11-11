@@ -12,7 +12,7 @@ namespace Tanks.Objects.Animation
         }
 
         public GameObject AnimatedObject { get; }
-        protected float Speed { get; }
+        public float Speed { get; }
 
         public virtual void Animate(InGameEngine engine)
         {

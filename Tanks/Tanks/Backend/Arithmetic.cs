@@ -23,5 +23,13 @@ namespace Tanks.Backend
             }
             return false;
         }
+
+        public static float RealAngle(float angle)
+        {
+            var fin = angle;
+            while (fin < 0)
+                fin += 360;;
+            return fin % 360;
+        }
     }
 }
