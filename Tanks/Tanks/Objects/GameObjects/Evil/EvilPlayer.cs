@@ -25,7 +25,6 @@ namespace Tanks.Objects.GameObjects.Evil
         {
             if (!IntelliCutsAnything(new Area(aim, Position), 1))
                 return;
-            ;
             Trace(aim);
             if (!IntelliCutsAnything(new Area(aim, Position), 1))
                 return;
@@ -53,14 +52,16 @@ namespace Tanks.Objects.GameObjects.Evil
         /// <param name="area"></param>
         /// <param name="intelliState"></param>
         /// <returns></returns>
-        private bool IntelliCutsAnything(Area area, int intelliState=0)
+        private bool IntelliCutsAnything(Area area, int intelliState = 0)
         {
-            return
-                Engine.Field.Objects.Any(
-                    o =>
-                        (o is Block || intelliState > 0 && o is EvilPlayer) &&
-                        (area.IsCoordinateInArea(o.Position) || area.IsCoordinateInArea(o.Position.Add(o.Size))) &&
-                        Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, o.Rotation, PublicStuff.NormalBulletSize, 5));
+            foreach (var o in Engine.Field.Objects)
+            {
+                if ((o is Block || intelliState > 0 && o is EvilPlayer) &&
+                    (area.IsCoordinateInArea(o.Position) || area.IsCoordinateInArea(o.Position.Add(o.Size))) &&
+                    Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, Rotation, PublicStuff.NormalBulletSize, 5))
+                    return true;
+            }
+            return false;
         }
 
         protected void IntelliTraceShoot(Coordinate aim, int intelliState = 0)
