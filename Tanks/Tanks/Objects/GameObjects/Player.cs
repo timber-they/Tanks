@@ -26,14 +26,14 @@ namespace Tanks.Objects.GameObjects
                         new Ellipse(0, new Colour(Color.Empty), new Coordinate(7, 8), new Coordinate(100, 100),
                             new Colour(Color.FromArgb(-16777216)), 0)
                     })
-                    {Position = new Coordinate(0, 0)}, engine.CurrentId)
+                { Position = new Coordinate(0, 0) }, engine.CurrentId)
         {
             BulletType = bulletType;
             ShootTimeLag = shootTimeLag;
             StartPosition = startPosition;
             Lives = lives;
             Engine = engine;
-            View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb()*3));
+            View.Shapes[0].MainColour = new Colour(Color.FromArgb(colour.Color.ToArgb() * 3));
             Moves = new ObservableCollection<Direction>();
             var polygon = View.Shapes[1] as Rectangle;
             if (polygon != null)
@@ -128,27 +128,25 @@ namespace Tanks.Objects.GameObjects
             Lives -= 1;
         }
 
-        public Coordinate GetReboundingPositionToShoot(GameObject obj, Direction direction) //TODO
+        protected Coordinate GetReboundingPositionToShoot(Coordinate aim, Direction direction) //TODO
         {
-            float x, y;
             switch (direction)
             {
                 case Direction.Right:
-                    x = Engine.Field.Size.X;
-                    //y = 
-                    break;
+                    return new Coordinate(Engine.Field.Size.X, CenterPosition()
+                            .GetPitchTo(new Coordinate(2 * Engine.Field.Size.X - aim.X, aim.Y)) * -CenterPosition().X + CenterPosition().Y);
                 case Direction.Down:
-                    break;
+                    return new Coordinate(-CenterPosition().Y / CenterPosition()
+                            .GetPitchTo(new Coordinate(aim.X, 2 * Engine.Field.Size.Y - aim.Y)) + CenterPosition().X, Engine.Field.Size.Y);
                 case Direction.Left:
-                    break;
+                    return new Coordinate(0, CenterPosition().GetPitchTo(new Coordinate(-aim.X, aim.Y)) * -CenterPosition().X + CenterPosition().Y);
                 case Direction.Up:
-                    break;
+                    return new Coordinate(-CenterPosition().Y / CenterPosition().GetPitchTo(new Coordinate(aim.X, -aim.Y)) + CenterPosition().X, 0);
                 case Direction.Nothing:
                     return null;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(direction), direction, null);
             }
-            return null;
         }
     }
 }

@@ -23,12 +23,20 @@ namespace Tanks.Objects.GameObjects.Evil
 
         protected void IntelliTrace(Coordinate aim) //TODO In jede Himmelsrichtung verfolgen (Abprallpunkt bestimmen, Schauen, ob auf dem Hinweg/Rückweg ein Zusammenstoß passiert, bevor es den Gegner trifft(area)
         {
-            var bad = true;
-            Direction direction = Direction.Up;
+            if (!IntelliCutsAnything(new Area(aim, Position), 1))
+                return;
+            ;
+            Trace(aim);
+            if (!IntelliCutsAnything(new Area(aim, Position), 1))
+                return;
+            var direction = Direction.Up;
             do
             {
-                
-            } while (bad);
+                Trace(GetReboundingPositionToShoot(aim, direction));
+                if (direction == Direction.Left)
+                    break;
+                direction = DirectionFunctionality.Next(direction);
+            } while (IntelliCutsAnything(new Area(aim, Position), 1));
         }
 
         protected void Trace(Coordinate aim) => Tracer.TracePosition(aim, this);
@@ -45,11 +53,15 @@ namespace Tanks.Objects.GameObjects.Evil
         /// <param name="area"></param>
         /// <param name="intelliState"></param>
         /// <returns></returns>
-        private bool IntelliCutsAnything(Area area, int intelliState=0) => Engine.Field.Objects
-            .Where(o => (o is Block || intelliState > 0 && o is EvilPlayer) && (area.IsCoordinateInArea(o.Position) || area.IsCoordinateInArea(o.Position.Add(o.Size))))
-            .Any(o =>
-                Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, Rotation,
-                    PublicStuff.NormalBulletSize, 5));
+        private bool IntelliCutsAnything(Area area, int intelliState=0)
+        {
+            return
+                Engine.Field.Objects.Any(
+                    o =>
+                        (o is Block || intelliState > 0 && o is EvilPlayer) &&
+                        (area.IsCoordinateInArea(o.Position) || area.IsCoordinateInArea(o.Position.Add(o.Size))) &&
+                        Arithmetic.Cuts(CenterPosition(), o.Position, o.Size, o.Rotation, PublicStuff.NormalBulletSize, 5));
+        }
 
         protected void IntelliTraceShoot(Coordinate aim, int intelliState = 0)
         {
@@ -61,10 +73,13 @@ namespace Tanks.Objects.GameObjects.Evil
                     break;
                 case 1:
                     Trace(aim);
-                    if (IntelliCutsAnything(new Area(aim, Position), intelliState) && BulletType == typeof(NormalBullet))
+                    if (BulletType == typeof(NormalBullet))
                     {
-
+                        IntelliTrace(aim);
+                        IntelliShoot(aim, 1);
                     }
+                    else
+                        throw new NotImplementedException("This bullet is not supported for intelligent shooting yet.");
                     break;
             }
         }
